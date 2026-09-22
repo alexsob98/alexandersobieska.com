@@ -300,7 +300,7 @@ def contact_links():
 def layout(path, title, description, active, body, active_theme=None, jsonld=None, extra_head="", home=False):
     canonical = SITE + path
     full_title = title if home else f"{title} · {NAME}"
-    legal_link = ' · <a href="/legal/">Impressum and privacy</a>' if LEGAL_READY else ""
+    legal_link = '<a href="/legal/">Impressum and privacy</a>' if LEGAL_READY else ""
     ld = f'<script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>' if jsonld else ""
     photo_side = f'<img class="photo" src="{PHOTO}" alt="Portrait of {NAME}" width="300" height="380">' if home else ""
     return f"""<!doctype html>
@@ -349,7 +349,7 @@ def layout(path, title, description, active, body, active_theme=None, jsonld=Non
 </header>
 <main id="content">
 {body}
-<p class="foot"><a href="/participants/">Information for study participants</a>{legal_link}</p>
+<p class="foot">{legal_link}</p>
 </main>
 </div>
 </body>
@@ -538,18 +538,6 @@ def talks_block():
 """
 
 
-def page_participants():
-    body = f"""
-<section>
-<h1 class="title">For people who took part in TikTalks</h1>
-<p class="big">Thank you for taking part. Recruitment for the study has closed.</p>
-<p class="intro">Results will appear here in plain language as each paper comes out.</p>
-<p class="intro">Questions about the study or your data: <a href="mailto:{EMAIL}">{EMAIL}</a></p>
-</section>
-"""
-    write("/participants/", layout("/participants/", "For study participants", "Information for people who took part in the TikTalks study.", "", body))
-
-
 IMPRESSUM_ADDRESS = ["Alexander Sobieska", "c/o Technische Universität München",
                      "Institut für Geschichte und Ethik der Medizin", "Ismaninger Straße 22",
                      "81675 München", "Deutschland"]
@@ -652,7 +640,7 @@ def extras():
     (OUT / "favicon.svg").write_text(
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#1740D1"/>'
         '<text x="32" y="42" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28" font-weight="700" fill="#fff">AS</text></svg>')
-    urls = ["/", "/research/", "/publications/", "/participants/"] + (["/legal/"] if LEGAL_READY else []) + [f"/research/{t['slug']}/" for t in THEMES]
+    urls = ["/", "/research/", "/publications/"] + (["/legal/"] if LEGAL_READY else []) + [f"/research/{t['slug']}/" for t in THEMES]
     sm = "".join(f"<url><loc>{SITE}{u}</loc><lastmod>{TODAY.isoformat()}</lastmod></url>" for u in urls)
     (OUT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sm}</urlset>\n')
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
@@ -669,7 +657,6 @@ def main():
     for t in THEMES:
         page_theme(t, pubs)
     page_publications(pubs)
-    page_participants()
     if LEGAL_READY:
         page_legal()
     page_404()
