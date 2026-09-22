@@ -477,41 +477,17 @@ def page_publications(pubs):
 <div class="actions"><a href="{e(q['url'])}">DOI: {e(q['doi'])}</a>
 <button type="button" class="copy" data-cite="{e(q['plain'])}">Copy citation</button></div>
 </article>""")
-    type_chips = "".join(f'<button type="button" class="chip" data-f="type" data-v="{v}" aria-pressed="{"true" if v == "all" else "false"}">{l}</button>'
-                         for v, l in [("all", "All"), ("article", "Journal articles"), ("incollection", "Book chapters")])
-    theme_chips = '<button type="button" class="chip" data-f="theme" data-v="all" aria-pressed="true">All themes</button>' + "".join(
-        f'<button type="button" class="chip" data-f="theme" data-v="{t["bib_theme"]}" aria-pressed="false">{e(t["short"])}</button>' for t in THEMES)
     body = f"""
 <section>
 <h1 class="title">Publications and talks</h1>
 <p class="intro">Also on <a href="{SCHOLAR}">Google Scholar</a> and <a href="{ORCID}">ORCID</a>. Jump to <a href="#talks">talks</a>.</p>
 </section>
 <h2 class="label">Publications</h2>
-<div class="filters" hidden>
-<div class="filter-row" role="group" aria-label="Filter by type"><span class="lbl">Type</span>{type_chips}</div>
-<div class="filter-row" role="group" aria-label="Filter by theme"><span class="lbl">Theme</span>{theme_chips}</div>
-</div>
-<p class="empty muted" hidden>Nothing published in this selection yet.</p>
 <div class="pubs" style="display:flex;flex-direction:column;gap:28px">
 {chr(10).join(items)}
 </div>
 <script>
 (function(){{
-  var f={{type:'all',theme:'all'}};
-  var box=document.querySelector('.filters'); box.hidden=false;
-  var pubs=[].slice.call(document.querySelectorAll('.pub')), empty=document.querySelector('.empty');
-  function apply(){{
-    var n=0;
-    pubs.forEach(function(p){{var ok=(f.type==='all'||p.dataset.type===f.type)&&(f.theme==='all'||p.dataset.theme===f.theme);p.hidden=!ok;if(ok)n++;}});
-    empty.hidden=n>0;
-  }}
-  [].forEach.call(document.querySelectorAll('.chip'),function(b){{
-    b.addEventListener('click',function(){{
-      f[b.dataset.f]=b.dataset.v;
-      [].forEach.call(document.querySelectorAll('.chip[data-f="'+b.dataset.f+'"]'),function(o){{o.setAttribute('aria-pressed',o===b?'true':'false');}});
-      apply();
-    }});
-  }});
   [].forEach.call(document.querySelectorAll('.copy'),function(b){{
     b.addEventListener('click',function(){{
       var t=b.dataset.cite;
