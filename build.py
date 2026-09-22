@@ -19,7 +19,7 @@ OUT = ROOT / "docs"
 SRC = ROOT / "src"
 SITE = "https://alexandersobieska.com"
 TODAY = datetime.date.today()
-LEGAL_READY = False  # set True once the Impressum/privacy text is checked
+LEGAL_READY = True  # Impressum/privacy text checked 2026-09-22 (01_content/legal_check.md)
 
 NAME = "Alexander Sobieska"
 EMAIL = "alexander.sobieska@tum.de"
@@ -573,25 +573,86 @@ def page_participants():
     write("/participants/", layout("/participants/", "For study participants", "Information for people who took part in the TikTalks study.", "", body))
 
 
+IMPRESSUM_ADDRESS = ["Alexander Sobieska", "c/o Technische Universität München",
+                     "Institut für Geschichte und Ethik der Medizin", "Ismaninger Straße 22",
+                     "81675 München", "Deutschland"]
+
+PRIVACY_DE = [
+    ("1. Verantwortlicher", [
+        "Verantwortlich für die Datenverarbeitung auf dieser Website ist Alexander Sobieska, c/o Technische Universität München, Institut für Geschichte und Ethik der Medizin, Ismaninger Straße 22, 81675 München, E-Mail: alexander.sobieska@tum.de. Diese Website ist ein privates Angebot und keine Website der Technischen Universität München."]),
+    ("2. Keine Cookies, keine Analyse", [
+        "Diese Website setzt keine Cookies, speichert nichts auf Ihrem Endgerät und verwendet keine Analyse- oder Tracking-Werkzeuge. Schriftarten werden von dieser Website selbst geladen; Inhalte anderer Anbieter sind nicht eingebunden."]),
+    ("3. Hosting bei GitHub Pages", [
+        "Die Website wird bei GitHub Pages bereitgestellt, einem Dienst der GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA, bzw. für Nutzerinnen und Nutzer im EWR der GitHub B.V., Prins Bernhardplein 200, 1097 JB Amsterdam, Niederlande. Wenn Sie eine Seite aufrufen, überträgt Ihr Browser technisch notwendige Angaben an die Server von GitHub, insbesondere Ihre IP-Adresse, die aufgerufene Adresse, Datum und Uhrzeit sowie Angaben zu Browser und Betriebssystem. Nach Angaben von GitHub wird die IP-Adresse von Besucherinnen und Besuchern zu Sicherheitszwecken protokolliert und gespeichert. GitHub verarbeitet diese Daten insoweit zu eigenen Zwecken; es gilt die Datenschutzerklärung von GitHub: https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement. Ich selbst erhalte von GitHub keine Daten über einzelne Seitenaufrufe.",
+        "Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Mein berechtigtes Interesse liegt darin, diese Website zuverlässig und sicher bereitzustellen.",
+        "Dabei können Daten in die USA übermittelt werden. Für die USA besteht ein Angemessenheitsbeschluss der Europäischen Kommission (EU-U.S. Data Privacy Framework, Beschluss vom 10. Juli 2023, Art. 45 DSGVO). GitHub, Inc. ist nach eigenen Angaben nach diesem Rahmen zertifiziert (https://www.dataprivacyframework.gov/list) und stützt sich zusätzlich auf die Standardvertragsklauseln der Europäischen Kommission.",
+        "GitHub nennt keine feste Speicherdauer für diese Protokolle; sie werden nach Angaben von GitHub gespeichert, solange es für Sicherheitszwecke erforderlich ist."]),
+    ("4. Kontakt per E-Mail", [
+        "Wenn Sie mir eine E-Mail schreiben, verarbeite ich Ihre Adresse und den Inhalt Ihrer Nachricht, um Ihre Anfrage zu beantworten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; mein berechtigtes Interesse ist die Beantwortung Ihrer Anfrage. Die angegebene Adresse ist eine Adresse der Technischen Universität München; E-Mails laufen daher über deren E-Mail-System. Ich lösche Ihre Nachricht, sobald sie für die Bearbeitung nicht mehr erforderlich ist, sofern keine gesetzlichen Aufbewahrungspflichten entgegenstehen."]),
+    ("5. Links zu anderen Websites", [
+        "Diese Website verlinkt auf andere Angebote, etwa zcal.co (Terminbuchung), Google Scholar, ORCID und LinkedIn. Erst wenn Sie einem solchen Link folgen, erhält der jeweilige Anbieter Daten von Ihnen; dafür gelten dessen Datenschutzbestimmungen."]),
+    ("6. Ihre Rechte", [
+        "Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17) und Einschränkung der Verarbeitung (Art. 18). Sie können der Verarbeitung Ihrer Daten, die auf Art. 6 Abs. 1 lit. f DSGVO beruht, aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit widersprechen (Art. 21 DSGVO). Wenden Sie sich dazu an die oben genannte E-Mail-Adresse.",
+        "Sie haben außerdem das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren (Art. 77 DSGVO). Für mich zuständig ist das Bayerische Landesamt für Datenschutzaufsicht (BayLDA), Promenade 18, 91522 Ansbach, https://www.lda.bayern.de."]),
+    ("7. Weitere Angaben", [
+        "Sie sind nicht verpflichtet, Daten bereitzustellen; ohne die technisch notwendigen Angaben kann die Website jedoch nicht angezeigt werden. Eine automatisierte Entscheidungsfindung einschließlich Profiling findet nicht statt.",
+        "Stand: September 2026"]),
+]
+
+PRIVACY_EN = [
+    ("1. Controller", [
+        "The person responsible for data processing on this website is Alexander Sobieska, c/o Technical University of Munich, Institute of History and Ethics in Medicine, Ismaninger Straße 22, 81675 Munich, Germany, email: alexander.sobieska@tum.de. This is a private website, not a website of the Technical University of Munich."]),
+    ("2. No cookies, no analytics", [
+        "This website sets no cookies, stores nothing on your device and uses no analytics or tracking tools. Fonts are loaded from this website itself; no content from other providers is embedded."]),
+    ("3. Hosting on GitHub Pages", [
+        "The website is served by GitHub Pages, a service of GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA, or, for users in the EEA, GitHub B.V., Prins Bernhardplein 200, 1097 JB Amsterdam, the Netherlands. When you open a page, your browser sends technically necessary information to GitHub's servers, in particular your IP address, the address requested, date and time, and details of your browser and operating system. According to GitHub, visitors' IP addresses are logged and stored for security purposes. GitHub processes this data for its own purposes; GitHub's privacy statement applies: https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement. I do not receive any data about individual page visits from GitHub.",
+        "The legal basis is Art. 6(1)(f) GDPR. My legitimate interest is to provide this website reliably and securely.",
+        "Data may be transferred to the USA. The European Commission has adopted an adequacy decision for the USA (EU-U.S. Data Privacy Framework, decision of 10 July 2023, Art. 45 GDPR). GitHub, Inc. states that it is certified under this framework (https://www.dataprivacyframework.gov/list) and also relies on the European Commission's standard contractual clauses.",
+        "GitHub does not state a fixed retention period for these logs; according to GitHub they are kept as long as needed for security purposes."]),
+    ("4. Contact by email", [
+        "If you email me, I process your address and the content of your message to answer your request. The legal basis is Art. 6(1)(f) GDPR; my legitimate interest is answering your request. The address given is a Technical University of Munich address, so emails pass through its email system. I delete your message once it is no longer needed, unless legal retention duties apply."]),
+    ("5. Links to other websites", [
+        "This website links to other services, such as zcal.co (booking), Google Scholar, ORCID and LinkedIn. Those providers receive data from you only once you follow such a link; their privacy terms then apply."]),
+    ("6. Your rights", [
+        "You have the right of access (Art. 15 GDPR), rectification (Art. 16), erasure (Art. 17) and restriction of processing (Art. 18). You may object at any time, on grounds relating to your particular situation, to processing based on Art. 6(1)(f) GDPR (Art. 21 GDPR). To do so, write to the email address above.",
+        "You also have the right to lodge a complaint with a data protection supervisory authority (Art. 77 GDPR). The authority responsible for me is the Bavarian State Office for Data Protection Supervision (BayLDA), Promenade 18, 91522 Ansbach, Germany, https://www.lda.bayern.de."]),
+    ("7. Further information", [
+        "You are not obliged to provide data, but without the technically necessary information the website cannot be displayed. No automated decision-making, including profiling, takes place.",
+        "Last updated: September 2026"]),
+]
+
+
+def linkify(text):
+    out = e(text)
+    return re.sub(r"(https?://[^\s<]+?)([.,;)]?)(?=\s|$)", lambda m: f'<a href="{m.group(1)}">{m.group(1)}</a>{m.group(2)}', out)
+
+
 def page_legal():
+    def block(sections):
+        return "".join(f'<section><h3 class="item">{e(h)}</h3>' + "".join(f'<p class="intro">{linkify(t)}</p>' for t in ps) + "</section>" for h, ps in sections)
+    address = "<br>".join(e(x) for x in IMPRESSUM_ADDRESS)
     body = f"""
 <section>
-<h1 class="title">Legal notice and privacy</h1>
-<p class="intro"><strong>DRAFT, not yet reviewed. Do not publish before the address below is filled in and the text is checked.</strong></p>
+<h1 class="title">Impressum and privacy</h1>
+<p class="intro">The legal notice and privacy notice are given in German, as German law requires, followed by an English translation of the privacy notice. If the German and English versions differ, the German version applies.</p>
+</section>
+<section lang="de">
+<h2 class="label">Impressum</h2>
+<p class="intro">Angaben gemäß § 5 DDG und § 18 Abs. 1 MStV</p>
+<p class="intro">{address}</p>
+<p class="intro">E-Mail: <a href="mailto:{EMAIL}">{EMAIL}</a></p>
+<p class="intro">Dies ist die private Website von Alexander Sobieska. Sie ist kein Angebot der Technischen Universität München; die TUM ist für die Inhalte nicht verantwortlich.</p>
+</section>
+<section lang="de">
+<h2 class="label">Datenschutzerklärung</h2>
+{block(PRIVACY_DE)}
 </section>
 <section>
-<h2 class="label">Legal notice (Impressum)</h2>
-<p class="intro">{NAME}<br>[POSTAL ADDRESS]<br>Email: <a href="mailto:{EMAIL}">{EMAIL}</a></p>
-<p class="intro">This is a personal website. Views expressed here are my own.</p>
-</section>
-<section>
-<h2 class="label">Privacy</h2>
-<p class="intro">This site sets no cookies, uses no analytics and loads nothing from third parties: fonts and images are served from this site.</p>
-<p class="intro">The site is hosted on GitHub Pages (GitHub, Inc.). When you visit, GitHub processes your IP address and technical request data to deliver the pages and keep the service secure. See GitHub's privacy statement.</p>
-<p class="intro">Links to other services, such as the booking page on zcal.co, Google Scholar, ORCID and LinkedIn, are subject to those services' own privacy terms once you follow them.</p>
+<h2 class="label">Privacy notice (English translation)</h2>
+{block(PRIVACY_EN)}
 </section>
 """
-    write("/legal/", layout("/legal/", "Legal notice and privacy", "Legal notice and privacy information for alexandersobieska.com.", "", body))
+    write("/legal/", layout("/legal/", "Impressum and privacy", "Legal notice (Impressum) and privacy notice for alexandersobieska.com.", "", body))
 
 
 def page_404():
