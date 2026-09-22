@@ -291,7 +291,7 @@ def nav_links(active, active_theme=None, cls=""):
 
 def contact_links():
     return (f'<a href="mailto:{EMAIL}">Write me</a>\n'
-            f'<a href="{BOOKING}">Call me</a>\n'
+            f'<a href="{BOOKING}">Schedule a call with me</a>\n'
             f'<a href="{SCHOLAR}">Google Scholar</a>\n'
             f'<a href="{ORCID}">ORCID</a>\n'
             f'<a href="{LINKEDIN}">LinkedIn</a>')
@@ -529,7 +529,7 @@ def talks_block():
     up_html = ('<section><h3 class="item">Upcoming</h3>' + "".join(talk_line(t) for t in up) + "</section>") if up else ""
     return f"""
 <section id="talks"><h2 class="label">Talks</h2>
-<p class="intro">For talk invitations, <a href="mailto:{EMAIL}">write me</a> or <a href="{BOOKING}">call me</a>. Talks in English or German.</p>
+<p class="intro">For talk invitations, <a href="mailto:{EMAIL}">write me</a> or <a href="{BOOKING}">schedule a call with me</a>. Talks in English or German.</p>
 </section>
 {up_html}
 <section><h3 class="item">Selected talks</h3>{"".join(talk_line(t) for t in past)}</section>
