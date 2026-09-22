@@ -23,12 +23,14 @@ LEGAL_READY = True  # Impressum/privacy text checked 2026-09-22 (01_content/lega
 
 NAME = "Alexander Sobieska"
 EMAIL = "alexander.sobieska@tum.de"
-BOOKING = "https://zcal.co/alexandersobieska"
+BOOKING = "https://zcal.co/alexandersobieska/work"
 SCHOLAR = "https://scholar.google.com/citations?user=eD-d6CwAAAAJ"
 ORCID = "https://orcid.org/0009-0003-1473-8161"
 LINKEDIN = "https://www.linkedin.com/in/alexander-sobieska-67820b19a/"
 TUM_PAGE = "https://get.med.tum.de/people/alexander-sobieska/"
 PHOTO = "/img/alexander-sobieska.jpg"
+CV_PDF = "/Alexander_Sobieska_CV.pdf"
+CV_SOURCE = ROOT.parent / "04_cv" / "CV_Sobieska_Alexander_2026-09_public.pdf"
 
 LEAD = ("I study what social media feeds show people about health and the brain, "
         "and what people actually watch.")
@@ -39,6 +41,7 @@ DESCRIPTION = ("Alexander Sobieska is a doctoral researcher at the Technical Uni
 NAV = [
     ("research", "/research/", "Research and projects"),
     ("publications", "/publications/", "Publications and talks"),
+    ("cv", CV_PDF, "CV (PDF)"),
 ]
 
 # ---------------------------------------------------------------- research themes
@@ -163,6 +166,7 @@ ORGANISED = [
 
 AWARDS = [
     ("2026–2027", "TikTalks II. Bavarian State Ministry for Family, Labour and Social Affairs, about €100,000 (with Yasmin Al-Douri, Responsible Technology Hub)"),
+    ("2026", "2nd prize, \u201cSpeaking Across Differences\u201d award of the Verein für die Förderung des McCloy-Stipendienprogramms, to TikTalks (Responsible Technology Hub), €2,000"),
     ("2025", "Fulbright Visiting Scholar Award, Stanford Social Media Lab"),
     ("2025", "Best Presenter Award, International Neuroethics Society annual meeting (Neuroethics 2025, Munich)"),
     ("2024–2026", "TikTalks: programme for the analysis of actors behind radical content on TikTok. Bavarian State Ministry for Family, Labour and Social Affairs, about €130,000 (with Yasmin Al-Douri, Responsible Technology Hub)"),
@@ -641,6 +645,7 @@ def page_404():
 
 
 def extras():
+    shutil.copy(CV_SOURCE, OUT / CV_PDF.lstrip("/"))
     shutil.copy(SRC / "style.css", OUT / "style.css")
     css = (SRC / "fonts.css").read_text() + "\n" + (SRC / "style.css").read_text()
     (OUT / "style.css").write_text(css, encoding="utf-8")
