@@ -141,16 +141,27 @@ TALKS = [
      "title": "TRACE: a four-layer design for reconstructing algorithmic content environments", "theme": "feed"},
     {"date": "2026-10-01", "shown": "1 Oct 2026", "kind": "Lightning talk", "event": "Trust & Safety Research Conference", "place": "Stanford University",
      "title": "Inside the For You Page: algorithmic content exposure, health misinformation and well-being among young adults on TikTok", "theme": "feed"},
-    {"date": "2025-05-01", "shown": "2025", "kind": "Talk", "event": "re:publica 2025", "place": "Berlin",
-     "title": "Gen Z “radicalized through TikTok”: myth or reality? (with Yasmin Al-Douri)", "theme": "radical"},
-    {"date": "2025-01-01", "shown": "2025", "kind": "Plenary session", "event": "Neuroethics 2025, INS & SINe annual meeting", "place": "Munich",
-     "title": "Digital bioethics: computational methods for neuroethical questions", "theme": "brain"},
-    {"date": "2024-06-01", "shown": "2024", "kind": "Talk", "event": "Hybrid Minds", "place": "Geneva",
-     "title": "Computational analysis of neuroethics discussion on YouTube", "theme": "brain"},
-    {"date": "2024-07-01", "shown": "2024", "kind": "Panel", "event": "EASST-4S", "place": "Amsterdam",
-     "title": "Exploring the transformative powers of neurosciences: new technologies of brain–environment interactions", "theme": "brain"},
-    {"date": "2023-07-01", "shown": "2023", "kind": "Talk", "event": "IC2S2", "place": "Copenhagen",
-     "title": "Decoding the discourse: the Querdenken movement's COVID-19 narrative", "theme": "radical"},
+    {"date": "2026-09-09", "shown": "9 Sep 2026", "kind": "Invited presentation", "event": "networking meeting of the Bavarian State Ministry for Family, Labour and Social Affairs (radicalization prevention)", "place": "Munich",
+     "title": "The TikTalks project", "theme": "radical"},
+    {"date": "2025-05-27", "shown": "27 May 2025", "kind": "Talk", "event": "re:publica 25", "place": "Berlin",
+     "title": "Gen Z \u201cradicalized through TikTok\u201d: myth or reality? (with Yasmin Al-Douri)", "theme": "radical"},
+    {"date": "2025-04-25", "shown": "25 Apr 2025", "kind": "Joint session with Georg Starke, Katherine Bassil, Ralf Jox and Sabine Salloch", "event": "Neuroethics 2025, annual meeting of INS and SINe", "place": "Munich",
+     "title": "Digital bioethics: computational methods for addressing neuroethical questions", "theme": "brain"},
+    {"date": "2025-04-23", "shown": "23 Apr 2025", "kind": "Poster", "event": "Neuroethics 2025, annual meeting of INS and SINe", "place": "Munich",
+     "title": "Exploring public discourse on neurotechnology: a computational analysis of sentiment, terminology, and ethical concerns on social media", "theme": "brain"},
+    {"date": "2024-10-17", "shown": "Oct 2024", "kind": "Talk", "event": "Hybrid Minds", "place": "Geneva",
+     "title": "Neuroethics on YouTube: investigating ethical considerations of neurotechnology in public discourse", "theme": "brain"},
+    {"date": "2024-09-20", "shown": "20 Sep 2024", "kind": "Talk", "event": "DFG Network \u201cDigital Bioethics\u201d", "place": "Hannover",
+     "title": "Neuroethics on YouTube: investigating ethical considerations of neurotechnology in public discourse", "theme": "brain"},
+    {"date": "2024-07-18", "shown": "18 Jul 2024", "kind": "Paper in the panel \u201cExploring the transformative powers of neurosciences\u201d", "event": "EASST-4S", "place": "Amsterdam",
+     "title": "Neurorights on YouTube: investigating ethical considerations of neurotechnology in public discourse", "theme": "brain"},
+    {"date": "2023-07-17", "shown": "Jul 2023", "kind": "Talk", "event": "IC2S2", "place": "Copenhagen",
+     "title": "Decoding the discourse: analyzing the linguistic features and strategies behind the Querdenken movement's COVID-19 narrative", "theme": "radical"},
+]
+
+ORGANISED = [
+    ("9–10 Jun 2026", "Expert workshop \u201cWho shapes whom? Recommendation systems, sense of self, and algorithmic influence on TikTok\u201d, HARMONY and TikTalks, Munich (co-organised with Valérie Nowak)"),
+    ("Apr 2025", "Neuroethics 2025, annual meeting of INS and SINe, Munich (local organising team)"),
 ]
 
 TEACHING = [
@@ -162,9 +173,9 @@ TEACHING = [
 AWARDS = [
     ("2026–2027", "TikTalks II. Bavarian State Ministry for Family, Labour and Social Affairs, about €100,000 (with Yasmin Al-Douri, Responsible Technology Hub)"),
     ("2025", "Fulbright Visiting Scholar Award, Stanford Social Media Lab"),
+    ("2025", "Top presentation recognition for a poster, Neuroethics 2025 (International Neuroethics Society), Munich"),
     ("2024–2026", "TikTalks: programme for the analysis of actors behind radical content on TikTok. Bavarian State Ministry for Family, Labour and Social Affairs, about €130,000 (with Yasmin Al-Douri, Responsible Technology Hub)"),
     ("2024", "Doctoral scholarship, Graduate Center of the Bavarian Research Institute for Digital Transformation (bidt)"),
-    ("2024", "Best Presenter Award, International Neuroethics Society annual meeting"),
     ("2021–2023", "Scholar, TUM: Junge Akademie"),
     ("2016–2020", "Scholar, Studienstiftung des Deutschen Volkes"),
 ]
@@ -520,6 +531,7 @@ def page_talks():
 </section>
 {up_html}
 <section><h2 class="label">Selected talks</h2>{"".join(talk_line(t) for t in past)}</section>
+<section><h2 class="label">Workshops and meetings organised</h2>{"".join(f'<p><strong>{e(w)}</strong> · {e(t)}</p>' for w, t in ORGANISED)}</section>
 <section><h2 class="label">Teaching</h2>{"".join(f'<p><strong>{e(w)}</strong> · {e(c)}, {e(i)}</p>' for w, c, i in TEACHING)}</section>
 <section><h2 class="label">Awards and funding</h2>{"".join(f'<p><strong>{e(w)}</strong> · {e(a)}</p>' for w, a in AWARDS)}</section>
 """
