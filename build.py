@@ -189,7 +189,7 @@ AWARDS = [
     ("2025", "Fulbright Visiting Scholar Award, Stanford Social Media Lab"),
     ("2025", "Best Presenter Award, International Neuroethics Society annual meeting (Neuroethics 2025, Munich)"),
     ("2024–2026", "TikTalks: programme for the analysis of actors behind radical content on TikTok. Bavarian State Ministry for Family, Labour and Social Affairs, about €130,000 (with Yasmin Al-Douri, Responsible Technology Hub)"),
-    ("2024", "Doctoral scholarship, Graduate Center of the Bavarian Research Institute for Digital Transformation (bidt)"),
+    ("2024", "Scholar of the Graduate Center for Doctoral Researchers, Bavarian Research Institute for Digital Transformation (bidt)"),
     ("2024", "Best Presenter Award, International Neuroethics Society annual meeting (Neuroethics 2024, Baltimore)"),
     ("2021–2023", "Scholar, TUM: Junge Akademie"),
     ("2016–2020", "Scholar, Studienstiftung des Deutschen Volkes"),
@@ -465,17 +465,17 @@ DE_PARTS = [
         "en": "tiktok-recommendations-health-misinformation",
         "slug": "tiktok-empfehlungssystem-gesundheitsinformationen",
         "name": "Was TikTok zeigt und was Menschen ansehen",
-        "seo": "TikTok-Empfehlungssystem, Gesundheitsinformationen und Fehlinformationen: was der Feed zeigt und was Menschen ansehen",
+        "seo": "TikTok-Empfehlungssystem und Gesundheitsinformationen",
         "short": "Junge Erwachsene spenden ihren TikTok-Verlauf. Er verzeichnet, welche Videos das Empfehlungssystem ausgespielt hat und wie lange sie auf dem Bildschirm waren. Zusammen mit Befragungen zeigt das, wie viele Gesundheitsinformationen und Fehlinformationen bei den Teilnehmenden ankommen und wie viel davon sie sich ansehen.",
         "body": [
-            "Wer Empfehlungssysteme untersucht, sieht meist nur eine Seite: entweder, was eine Plattform ausspielt, gemessen mit Testkonten, oder was Nutzerinnen und Nutzer erinnern, erhoben in Befragungen. Beides sagt nicht, was eine bestimmte Person tatsächlich angesehen hat.",
-            "Im Projekt HARMONY spenden junge Erwachsene ihren TikTok-Verlauf. Er verzeichnet jedes Video, das der Feed ausgespielt hat, und wie lange es auf dem Bildschirm blieb. Zusammen mit Befragungen lässt sich damit fragen, wie viele Gesundheitsinformationen und wie viele Fehlinformationen bei den Teilnehmenden ankommen, wie viel davon sie sich ansehen statt weiterzuwischen, und ob das mit ihrem Wohlbefinden zusammenhängt.",
+            "Wer Empfehlungssysteme untersucht, sieht meist nur eine Seite: Entweder man misst mit Testkonten, was eine Plattform ausspielt, oder man fragt Nutzerinnen und Nutzer, woran sie sich erinnern. Keiner der beiden Wege zeigt, was eine bestimmte Person tatsächlich angesehen hat.",
+            "Im Projekt HARMONY spenden junge Erwachsene ihren TikTok-Verlauf. Er verzeichnet, welche Videos das Empfehlungssystem ausgespielt hat und wie lange sie auf dem Bildschirm blieben. Zusammen mit den Befragungen lässt sich damit untersuchen, wie viele Gesundheitsinformationen und wie viele Fehlinformationen bei den Teilnehmenden ankommen, wie viel davon sie sich ansehen statt weiterzuwischen und ob das mit ihrem Wohlbefinden zusammenhängt.",
         ],
         "steps": [
-            "Die Teilnehmenden beantworten Fragen zu Gesundheit und Wohlbefinden.",
-            "Sie laden ihre eigenen TikTok-Daten herunter und spenden sie der Studie.",
-            "Der gespendete Verlauf zeigt, welche Videos der Feed ausgespielt hat und wie lange sie auf dem Bildschirm waren.",
-            "Beides zusammen zeigt, was die Plattform ausgespielt hat und was die Person davon angesehen hat.",
+            "Die Teilnehmenden beantworten Fragen zu ihrer Gesundheit und ihrem Wohlbefinden.",
+            "Sie laden ihre eigenen TikTok-Daten herunter und geben sie als Datenspende an die Studie weiter.",
+            "Der gespendete Verlauf zeigt, welche Videos das Empfehlungssystem ausgespielt hat und wie lange sie auf dem Bildschirm waren.",
+            "Beides zusammen zeigt, was die Plattform einer Person ausgespielt hat und was diese davon angesehen hat.",
         ],
         "bib_theme": "feed",
     },
@@ -483,11 +483,11 @@ DE_PARTS = [
         "en": "neuroethics-online-public-discussion",
         "slug": "neuroethik-oeffentliche-debatte",
         "name": "\u201eDas Gehirn\u201c in der Öffentlichkeit",
-        "seo": "Neurotechnologie und Neuroethik in der öffentlichen Debatte im Internet",
+        "seo": "Neurotechnologie und Neuroethik in der öffentlichen Debatte",
         "short": "Wie im Internet über \u201edas Gehirn\u201c, ADHS und Neurotechnologie gesprochen wird, welche ethischen Fragen die Öffentlichkeit dabei stellt und was die Neuroethik daraus lernen kann.",
         "body": [
-            "Aussagen über \u201edas Gehirn\u201c, über ADHS und über Neurotechnologie begegnen den meisten Menschen heute in kurzen Videos, nicht in Fachzeitschriften. Dieser Teil meiner Arbeit fragt, wie im Internet über diese Themen gesprochen wird, welche ethischen Fragen die Öffentlichkeit dabei stellt und was die Neuroethik daraus lernen kann.",
-            "Ethik ist die Untersuchung der Frage, wie wir handeln sollen und was wir einander schulden. Die Neuroethik wendet das auf Hirnforschung und Neurotechnologie an: etwa darauf, was sich ändert, wenn ein Gerät Hirnaktivität aufzeichnen oder beeinflussen kann, oder wenn Menschen beginnen, sich selbst über ihr Gehirn zu erklären.",
+            "Den meisten Menschen begegnen Aussagen über \u201edas Gehirn\u201c, ADHS und Neurotechnologie heute in kurzen Videos, nicht in Fachzeitschriften. In diesem Teil meiner Arbeit frage ich, wie im Internet über diese Themen gesprochen wird, welche ethischen Fragen die Öffentlichkeit dabei stellt und was die Neuroethik daraus lernen kann.",
+            "Die Ethik untersucht, wie wir handeln sollen und was wir einander schulden. Die Neuroethik wendet diese Fragen auf Hirnforschung und Neurotechnologie an. Sie fragt zum Beispiel, was sich ändert, wenn ein Gerät Hirnaktivität aufzeichnen oder beeinflussen kann, oder wenn Menschen anfangen, sich selbst durch ihr Gehirn zu erklären.",
         ],
         "steps": [],
         "bib_theme": "neuroethics",
@@ -496,13 +496,13 @@ DE_PARTS = [
         "en": "online-radicalization-misinformation",
         "slug": "radikalisierung-fehlinformationen-online",
         "name": "Radikalisierung und Fehlinformationen",
-        "seo": "Radikalisierung und Fehlinformationen im Netz: Sprache, Bewegungen und Plattformen",
+        "seo": "Radikalisierung und Fehlinformationen im Internet",
         "short": "Wie Bewegungen ihre Erzählungen aufbauen und wie sich Sprache verändert, wenn sich Menschen extremen Positionen annähern.",
         "body": [
-            "Wie bauen Bewegungen und Gemeinschaften ihre Erzählungen auf, und wie verändert sich Sprache, wenn sich Menschen extremen Positionen annähern?",
-            "Eine veröffentlichte Arbeit untersucht die Sprache der Querdenken-Bewegung während der Corona-Pandemie. Querdenken ist eine Bewegung, die sich 2020 in Deutschland gegen die Pandemiemaßnahmen der Regierung formierte.",
-            "In meiner Masterarbeit habe ich die Sprache des Forums r/Incels untersucht, in dem sich Männer als \u201eunfreiwillig zölibatär\u201c beschreiben, und wie sich diese Sprache im Verlauf einer Radikalisierung verändert.",
-            "Im Projekt TikTalks geht es um radikale und polarisierende Inhalte auf TikTok und darum, wie junge Erwachsene in Bayern ihnen in ihren Feeds begegnen.",
+            "Wie bauen Bewegungen und Gemeinschaften ihre Erzählungen auf und wie verändert sich Sprache, wenn sich Menschen extremen Positionen annähern?",
+            "In einer bereits erschienenen Arbeit habe ich die Sprache der Querdenken-Bewegung während der Corona-Pandemie untersucht. Querdenken ist eine Protestbewegung, die sich 2020 in Deutschland gegen die Pandemiemaßnahmen der Regierung formierte.",
+            "In meiner Masterarbeit habe ich die Sprache des Forums r/Incels untersucht, in dem sich Männer als \u201eunfreiwillig zölibatär\u201c beschreiben. Die Frage war, wie sich die Sprache der Nutzer verändert, während sie sich radikalisieren.",
+            "Im Projekt TikTalks geht es um radikale und polarisierende Inhalte auf TikTok und darum, wie junge Erwachsene in Bayern diesen Inhalten in ihren Feeds begegnen.",
         ],
         "steps": [],
         "bib_theme": "radicalization",
@@ -511,11 +511,11 @@ DE_PARTS = [
         "en": "large-language-models-clinical-communication-information",
         "slug": "sprachmodelle-medizin-informationssuche",
         "name": "Sprachmodelle und die Suche nach Informationen",
-        "seo": "Große Sprachmodelle in der medizinischen Kommunikation und bei der Suche nach Informationen",
+        "seo": "Sprachmodelle in der Medizin und bei der Informationssuche",
         "short": "Wie große Sprachmodelle die Kommunikation in der Medizin und die Suche nach Informationen verändern.",
         "body": [
-            "Große Sprachmodelle verändern, wie in der Medizin miteinander gesprochen wird und wie Menschen nach Informationen suchen. Eine frühere Arbeit befasst sich mit der Einwilligung nach Aufklärung: Sie zeigt, dass Einwilligung mehr ist als ein Austausch von Worten, und dass genau das begrenzt, was Sprachmodelle in einem Aufklärungsgespräch leisten können.",
-            "Ein weiterer Teil meiner Arbeit fragt, ob große Sprachmodelle über umstrittene historische Ereignisse, etwa Massenverbrechen, in manchen Sprachen weniger vollständig berichten als in anderen.",
+            "Große Sprachmodelle verändern, wie in der Medizin miteinander gesprochen wird und wie Menschen nach Informationen suchen. Eine frühere Arbeit befasst sich mit der Einwilligung nach Aufklärung. Sie argumentiert, dass Einwilligung mehr ist als ein Austausch von Worten und dass genau das begrenzt, was Sprachmodelle in einem Aufklärungsgespräch leisten können.",
+            "In einem weiteren Teil meiner Arbeit frage ich, ob große Sprachmodelle über umstrittene historische Ereignisse, etwa Massenverbrechen, in manchen Sprachen weniger vollständig berichten als in anderen.",
         ],
         "steps": [],
         "bib_theme": "llm-medethics",
@@ -550,7 +550,7 @@ def page_de():
 <div class="themes">
 {parts}
 </div>
-<p class="small muted">Die Überschriften führen zu einer ausführlicheren deutschen Seite. Projekte, alle Publikationen und die Vorträge stehen auf den englischen Seiten.</p>
+<p class="small muted">Jede Überschrift führt zu einer ausführlicheren deutschen Seite. Die Projekte, alle Publikationen und die Vorträge stehen auf den englischen Seiten.</p>
 </section>
 <section>
 <h2 class="label">Kontakt</h2>
@@ -566,7 +566,7 @@ def page_de_part(t, pubs):
     paras = "\n".join(f'<p class="{"big" if i == 0 else "intro"}">{e(x)}</p>' for i, x in enumerate(t["body"]))
     steps = ""
     if t["steps"]:
-        steps = '<section><h2 class="label">Wie die Daten zusammenkommen</h2><ol class="steps">' + "".join(f"<li>{e(x)}</li>" for x in t["steps"]) + "</ol></section>"
+        steps = '<section><h2 class="label">Wie die Daten entstehen</h2><ol class="steps">' + "".join(f"<li>{e(x)}</li>" for x in t["steps"]) + "</ol></section>"
     mine = [x for x in pubs if x.get("theme") == t["bib_theme"]]
     if mine:
         pubs_html = '<section><h2 class="label">Publikationen</h2>' + "".join(f"<p>{cite_html(x)}</p>" for x in mine) + "</section>"
@@ -582,7 +582,7 @@ def page_de_part(t, pubs):
 {steps}
 {pubs_html}
 <section><h2 class="label">Mehr dazu</h2>
-<p class="intro"><a href="/research/{t["en"]}/" hreflang="en" lang="en">Die englische Fassung dieser Seite</a> nennt zusätzlich die Projekte und die Vorträge zu diesem Teil der Arbeit.</p>
+<p class="intro"><a href="/research/{t["en"]}/" hreflang="en" lang="en">Die englische Fassung dieser Seite</a> nennt außerdem die Projekte und Vorträge zu diesem Teil meiner Arbeit.</p>
 </section>
 <section><h2 class="label">Weitere Teile meiner Arbeit</h2><div class="inline-links">{others}</div></section>
 """
