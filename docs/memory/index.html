@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Memory</title>
+<meta name="description" content="A small game of memory.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css">
+<style>
+.mem-wrap{max-width:560px;margin:0 auto;padding:56px 16px 72px;display:flex;flex-direction:column;gap:20px}
+.mem-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.mem-head h1{font-size:28px;font-weight:500;letter-spacing:-0.01em}
+.mem-hud{font-size:15px;color:var(--muted);font-variant-numeric:tabular-nums}
+.board{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{aspect-ratio:1;padding:0;border:2px solid var(--ink);background:var(--link);cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative}
+.card[data-state="up"],.card[data-state="done"]{background:#fff;cursor:default}
+.card[data-state="done"]{border-color:var(--rule)}
+.card[data-state="free"]{background:#fff;border-style:dashed;cursor:default}
+.card svg{width:56%;height:56%}
+.card .back{width:44%;height:44%}
+.card[data-state="up"] .back,.card[data-state="done"] .back,.card[data-state="free"] .back{display:none}
+.card .face{display:none}
+.card[data-state="up"] .face,.card[data-state="done"] .face,.card[data-state="free"] .face{display:block}
+.card[data-state="done"] .face{opacity:.4}
+.card:focus-visible{outline:2px solid var(--link);outline-offset:3px}
+.mem-note{font-size:15px;line-height:1.55;color:var(--muted)}
+.mem-done{font-size:17px;line-height:1.5}
+button.again{min-height:44px;padding:0 18px;font-size:15px;font-family:inherit;background:#fff;color:var(--link);border:1px solid var(--link);cursor:pointer;align-self:flex-start}
+@media (prefers-reduced-motion: no-preference){
+  .card{transition:background .18s ease}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="i-brain" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+<path d="M30 70 C16 64 14 46 26 38 C22 24 38 14 48 22 C58 12 76 20 74 34 C86 40 86 62 72 70 C64 80 38 80 30 70 Z"/>
+<path d="M50 22 C46 34 54 42 48 52 C42 62 52 68 50 76"/><path d="M34 40 C42 36 44 48 34 52"/><path d="M66 38 C58 34 56 48 66 52"/><path d="M36 62 C44 58 46 66 40 70"/></g>
+<g id="i-phone" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+<rect x="30" y="16" width="40" height="68" rx="8"/><path d="M42 24 h16"/><path d="M38 42 h24"/><path d="M38 54 h18"/><path d="M38 66 h24"/></g>
+<g id="i-heart" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+<path d="M50 78 C24 60 20 40 32 32 C41 26 48 32 50 38 C52 32 59 26 68 32 C80 40 76 60 50 78 Z"/></g>
+<g id="i-play" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="50" cy="50" r="30"/><path d="M43 38 L64 50 L43 62 Z" fill="#1740D1" stroke="none"/></g>
+<g id="i-robot" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+<rect x="26" y="34" width="48" height="40" rx="9"/><path d="M50 34 V22"/><circle cx="50" cy="18" r="4" fill="#1740D1" stroke="none"/><circle cx="40" cy="50" r="4.5" fill="#1740D1" stroke="none"/><circle cx="60" cy="50" r="4.5" fill="#1740D1" stroke="none"/><path d="M40 64 h20"/><path d="M26 48 h-8"/><path d="M74 48 h8"/></g>
+<g id="i-back" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"><path d="M28 28 h44"/><path d="M28 50 h44"/><path d="M28 72 h30"/></g>
+</defs></svg>
+
+<div class="mem-wrap">
+<div class="mem-head">
+<h1>Memory</h1>
+<p class="mem-hud" id="hud">moves: 0</p>
+</div>
+<div class="board" id="board" role="group" aria-label="Memory, a three by three board"></div>
+<p class="mem-done" id="done" hidden></p>
+<button class="again" id="again" hidden type="button">Play again</button>
+<p class="mem-note">Four pairs: phone screen, heart, play button, robot. The brain in the middle is free, it belongs to no pair. Nothing here is stored or sent anywhere.</p>
+<p class="mem-note"><a href="/">Back to the site</a></p>
+</div>
+
+<script>
+(function () {
+  var PAIRS = [
+    { id: 'phone', label: 'phone screen' },
+    { id: 'heart', label: 'heart' },
+    { id: 'play', label: 'play button' },
+    { id: 'robot', label: 'robot' }
+  ];
+  var board = document.getElementById('board'), hud = document.getElementById('hud');
+  var doneLine = document.getElementById('done'), again = document.getElementById('again');
+  var cards = [], first = null, second = null, moves = 0, matched = 0, busy = false;
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1)), t = a[i];
+      a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function build() {
+    var deck = shuffle(PAIRS.concat(PAIRS).slice());
+    board.innerHTML = '';
+    cards = []; first = null; second = null; moves = 0; matched = 0; busy = false;
+    hud.textContent = 'moves: 0';
+    doneLine.hidden = true; again.hidden = true;
+    var order = deck.slice(0, 4).concat([{ id: 'brain', label: 'brain, free square' }]).concat(deck.slice(4));
+    order.forEach(function (item, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'card';
+      b.dataset.id = item.id;
+      b.dataset.state = item.id === 'brain' ? 'free' : 'down';
+      b.setAttribute('aria-label', item.id === 'brain' ? 'brain, free square' : 'card ' + (i + 1) + ', face down');
+      b.innerHTML = '<svg class="back" viewBox="0 0 100 100" aria-hidden="true"><use href="#i-back"></use></svg>' +
+                    '<svg class="face" viewBox="0 0 100 100" aria-hidden="true"><use href="#i-' + item.id + '"></use></svg>';
+      if (item.id !== 'brain') b.addEventListener('click', function () { flip(b, item); });
+      board.appendChild(b);
+      cards.push(b);
+    });
+  }
+
+  function flip(b, item) {
+    if (busy || b.dataset.state !== 'down') return;
+    b.dataset.state = 'up';
+    b.setAttribute('aria-label', item.label + ', face up');
+    if (!first) { first = b; return; }
+    second = b;
+    moves++;
+    hud.textContent = 'moves: ' + moves;
+    if (first.dataset.id === second.dataset.id) {
+      first.dataset.state = 'done'; second.dataset.state = 'done';
+      first = null; second = null; matched++;
+      if (matched === PAIRS.length) finish();
+    } else {
+      busy = true;
+      setTimeout(function () {
+        [first, second].forEach(function (c) {
+          c.dataset.state = 'down';
+          c.setAttribute('aria-label', 'card, face down');
+        });
+        first = null; second = null; busy = false;
+      }, 700);
+    }
+  }
+
+  function finish() {
+    doneLine.textContent = 'Four pairs in ' + moves + ' moves.' + (moves <= 6 ? ' Suspiciously good.' : '');
+    doneLine.hidden = false;
+    again.hidden = false;
+    again.focus();
+  }
+
+  again.addEventListener('click', build);
+  build();
+})();
+</script>
+</body>
+</html>

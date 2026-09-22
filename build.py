@@ -313,13 +313,9 @@ def layout(path, title, description, active, body, active_theme=None, jsonld=Non
     de = lang == "de"
     legal = '<a href="/legal/">Impressum und Datenschutz</a>' if de else '<a href="/legal/">Impressum and privacy</a>'
     other_lang = '<a href="/" hreflang="en" lang="en">English</a>' if de else '<a href="/de/" hreflang="de" lang="de">Deutsch</a>'
-    foot = " · ".join(x for x in [legal if LEGAL_READY else "", other_lang] if x)
-    egg = "" if de else """<script>
-// Easter egg: type "brain" anywhere on an English page.
-(function(){var k="";document.addEventListener("keydown",function(e){
-if(e.metaKey||e.ctrlKey||e.altKey||/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName))return;
-k=(k+e.key.toLowerCase()).slice(-5);if(k==="brain")location.href="/brain-run/";});})();
-</script>"""
+    memory = "" if de else '<a href="/memory/">Memory</a>'
+    foot = " · ".join(x for x in [legal if LEGAL_READY else "", memory, other_lang] if x)
+    egg = ""
     ld = f'<script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>' if jsonld else ""
     photo_side = f'<img class="photo" src="{PHOTO}" alt="Porträt von {NAME}" width="300" height="380">' if (home and de) else (f'<img class="photo" src="{PHOTO}" alt="Portrait of {NAME}" width="300" height="380">' if home else "")
     hreflang = ""
@@ -796,16 +792,15 @@ def page_404():
 <section>
 <h1 class="title">Page not found</h1>
 <p class="intro">This page does not exist. Go to the <a href="/">home page</a> or see the <a href="/publications/">publications</a>.</p>
-<p class="small muted">While you are here: the brain went for a <a href="/brain-run/">run</a>.</p>
 </section>
 """
     (OUT / "404.html").write_text(layout("/404.html", "Page not found", "Page not found.", "", body), encoding="utf-8")
 
 
 def extras():
-    # hidden easter egg page, not in the nav and not in the sitemap
-    (OUT / "brain-run").mkdir(parents=True, exist_ok=True)
-    shutil.copy(SRC / "brain-run.html", OUT / "brain-run" / "index.html")
+    # small game, not in the nav and not in the sitemap; linked in the footer
+    (OUT / "memory").mkdir(parents=True, exist_ok=True)
+    shutil.copy(SRC / "memory.html", OUT / "memory" / "index.html")
     shutil.copy(CV_SOURCE, OUT / CV_PDF.lstrip("/"))
     shutil.copy(SRC / "style.css", OUT / "style.css")
     css = (SRC / "fonts.css").read_text() + "\n" + (SRC / "style.css").read_text()
