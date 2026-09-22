@@ -155,7 +155,7 @@ TALKS = [
     {"date": "2026-09-09", "shown": "9 Sep 2026", "kind": "Invited presentation", "event": "networking meeting of the Bavarian State Ministry for Family, Labour and Social Affairs (radicalization prevention)", "place": "Munich",
      "title": "The TikTalks project", "theme": "radical"},
     {"date": "2026-06-05", "shown": "5 Jun 2026", "kind": "Invited workshop", "event": "Health Ethics and Policy Lab (Effy Vayena), ETH Zurich", "place": "Zurich",
-     "title": "Digital methods for ethics research", "theme": None},
+     "title": "Digital methods", "theme": None},
     {"date": "2025-05-27", "shown": "27 May 2025", "kind": "Talk", "event": "re:publica 25", "place": "Berlin",
      "title": "Gen Z \u201cradicalized through TikTok\u201d: myth or reality? (with Yasmin Al-Douri)", "theme": "radical"},
     {"date": "2025-04-25", "shown": "25 Apr 2025", "kind": "Joint session with Georg Starke, Ralf Jox and Sabine Salloch", "event": "Neuroethics 2025, annual meeting of INS and SINe", "place": "Munich",
