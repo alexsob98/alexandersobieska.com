@@ -29,6 +29,10 @@ ORCID = "https://orcid.org/0009-0003-1473-8161"
 LINKEDIN = "https://www.linkedin.com/in/alexander-sobieska-67820b19a/"
 TUM_PAGE = "https://get.med.tum.de/people/alexander-sobieska/"
 PHOTO = "/img/alexander-sobieska.jpg"
+HARMONY_URL = "https://portal.fis.tum.de/en/projects/harmony-health-related-mis-information-on-social-media-and-its-im/"
+CHAIR_URL = "https://www.pm.mh.tum.de/en/ethics/institute/team/marcello-ienca/"
+SML_URL = "https://sml.stanford.edu/"
+GIF_URL = "https://www.global.tum.de/en/global/gif/"
 CV_PDF = "/Alexander_Sobieska_CV.pdf"
 CV_SOURCE = ROOT.parent / "04_cv" / "CV_Sobieska_Alexander_2026-09_public.pdf"
 
@@ -69,13 +73,13 @@ THEMES = [
     {
         "key": "brain",
         "slug": "neuroethics-online-public-discussion",
-        "name": "The brain in public",
-        "short": "The brain in public",
+        "name": "\u201cThe brain\u201d in public",
+        "short": "\u201cThe brain\u201d in public",
         "seo_title": "Neurotechnology and neuroethics in online public discussion",
-        "summary": "How the brain, ADHD and neurotechnology are framed online, and what neuroethics should learn from it.",
+        "summary": "How claims about \u201cthe brain\u201d, ADHD and neurotechnology are framed online, and what neuroethics can learn from it.",
         "body": [
-            "People now meet claims about the brain, ADHD and neurotechnology mostly in videos, not in journals. This theme asks how these topics are framed online, which ethical questions the public raises, and what neuroethics should learn from it.",
-            "Published work includes a book chapter on how neuroethics positions itself in a polarized media environment.",
+            "People now meet claims about \u201cthe brain\u201d, ADHD and neurotechnology mostly in online videos, not in journals. This theme asks how these topics are framed online, which ethical questions the public raises, and what neuroethics can learn from that.",
+            "Ethics is the study of how we ought to act and what we owe each other. Neuroethics applies this to brain science and neurotechnology: for example, what changes when a device can record or alter brain activity, or when people come to explain themselves through their brain.",
         ],
         "projects": [],
         "bib_theme": "neuroethics",
@@ -86,24 +90,26 @@ THEMES = [
         "name": "Radicalization and misinformation",
         "short": "Radicalization and misinformation",
         "seo_title": "Online radicalization and misinformation: language, movements and platforms",
-        "summary": "How movements build narratives, from Querdenken during COVID-19 to radical content in young adults' feeds.",
+        "summary": "How movements build their narratives and how language changes as people move toward extreme positions.",
         "body": [
-            "How do movements and communities build their narratives, and how does language change as people move toward extreme positions?",
-            "Published work analyses the linguistic strategies of the Querdenken movement during COVID-19. Earlier work on r/Incels proposed a differential model of online radicalization. TikTalks studies radical and polarizing content on TikTok and how young adults in Bavaria meet it in their feeds.",
+            "How do movements build their narratives, and how does language change as people move toward extreme positions?",
+            "Published work analyses the language of the Querdenken movement during COVID-19. Querdenken (German for \u201clateral thinking\u201d) is a protest movement that formed in Germany in 2020 against the government's pandemic measures.",
+            "For my master's thesis I studied the language of r/Incels, an online forum of men who call themselves \u201cinvoluntary celibates\u201d, and how users' language changes as they radicalize.",
+            "TikTalks studies radical and polarizing content on TikTok and how young adults in Bavaria meet it in their feeds.",
         ],
         "projects": ["tiktalks1", "tiktalks2"],
         "bib_theme": "radicalization",
     },
     {
         "key": "llm",
-        "slug": "large-language-models-medical-ethics",
-        "name": "Language models and medical ethics",
-        "short": "Language models and medical ethics",
-        "seo_title": "Large language models, informed consent and medical ethics",
-        "summary": "Language models in informed consent, and how AI chatbots answer questions about contested history across languages.",
+        "slug": "large-language-models-clinical-communication-information",
+        "name": "Language models and how people get information",
+        "short": "Language models and information",
+        "seo_title": "Large language models in clinical communication and information retrieval",
+        "summary": "How large language models change clinical communication and the way people look up information.",
         "body": [
-            "What changes when large language models enter clinical communication and ethics teaching? Work with Georg Starke argues that informed consent is more than exchanging words, and that this limits what language models can do in consent conversations. A second paper reports on teaching epistemic humility to medical students with virtual reality.",
-            "A current project asks whether large language models give a less complete account of contested historical events, such as mass atrocities, when asked in some languages than in others. The study compares answers across languages and models, each against a matched event that is not contested.",
+            "Large language models are changing how doctors and patients communicate and how people look up information. Earlier work with Georg Starke looked at informed consent: it argues that consent is more than an exchange of words, which limits what language models can do in consent conversations. A side project reported on teaching epistemic humility to medical students with virtual reality.",
+            "The current project asks whether large language models give a less complete account of contested historical events, such as mass atrocities, when asked in some languages than in others.",
         ],
         "projects": ["llmhistory"],
         "bib_theme": "llm-medethics",
@@ -113,24 +119,28 @@ THEMES = [
 # ---------------------------------------------------------------- projects
 PROJECTS = {
     "harmony": {
-        "name": "HARMONY",
+        "name": "HARMONY: Health-Related (Mis-)Information on Social Media and Its Impact on Young Adults",
         "when": "",
-        "text": "Health-related (mis-)information on social media and its impact on young adults. Technical University of Munich and Eindhoven University of Technology, with the Stanford Social Media Lab and UNICEF.",
+        "url": HARMONY_URL,
+        "text": "TikTok uses highly individualised content recommendation systems powered by artificial intelligence. While these systems boost engagement, concerns arise about their impact on young adults, particularly around mental health and exposure to health (mis-)information. HARMONY investigates how, when, and why young adults encounter health-related (mis-)information on TikTok: it collects data on users' interactions with and perceptions of TikTok's recommendation systems, analyses health-related videos, runs experiments with digital twins, and uses focus groups to learn how users judge the reliability of health content. The findings are meant to inform regulatory discussions about vulnerable groups such as young adults. An IGSSE International Project Team of TU Munich and Eindhoven University of Technology (principal investigators Marcello Ienca and Lily Frank), with the Stanford Social Media Lab and UNICEF.",
     },
     "tiktalks1": {
         "name": "TikTalks I",
         "when": "July 2024 – February 2026",
+        "url": "",
         "text": "How TikTok's recommendations build personal feeds for young adults (18–24) in Bavaria, with a focus on polarizing, radical and extremist content. Participants answered a survey, used a newly created TikTok study account for seven days, and could donate their own TikTok data; focus groups and workshops added their own accounts of what they saw. Responsible Technology Hub and TUM, funded by the Bavarian State Ministry for Family, Labour and Social Affairs under its radicalization-prevention programme. Role: project manager.",
     },
     "tiktalks2": {
         "name": "TikTalks II",
         "when": "2026–2027",
+        "url": "",
         "text": "Takes the data and results of TikTalks I to researchers, practitioners and the public: an expert workshop (held June 2026, jointly with HARMONY) and an international conference in 2027. Same partners and funder. Role: project manager.",
     },
     "llmhistory": {
-        "name": "AI chatbots and contested history",
-        "when": "2025–2026",
-        "text": "A comparison, across languages, of how AI chatbots answer questions about contested historical events. TUM and Imperial College London; principal investigator Marcello Ienca, partner Giorgio Gilestro; funded by the TUM Global Incentive Fund. Role: doctoral researcher and project coordinator.",
+        "name": "Global Comparative Study on Censorship in LLM-Based Chatbots",
+        "when": "September 2025 – September 2026",
+        "url": GIF_URL,
+        "text": "As large language models increasingly shape access to information, their answers to politically, ethically and socially sensitive questions raise concerns about freedom of expression, digital rights and epistemic justice. The project compares how chatbots developed under different political and regulatory conditions handle such questions, looking both for outright refusals and for subtler strategies such as evasion, distortion or omission. The current study focuses on contested historical events. TUM and Imperial College London (principal investigator Marcello Ienca, partner Giorgio Gilestro), funded by the TUM Global Incentive Fund. Role: doctoral researcher and project coordinator.",
     },
 }
 
@@ -155,7 +165,7 @@ TALKS = [
      "title": "Neuroethics on YouTube: investigating ethical considerations of neurotechnology in public discourse", "theme": "brain"},
     {"date": "2024-07-18", "shown": "18 Jul 2024", "kind": "Paper in the panel \u201cExploring the transformative powers of neurosciences\u201d", "event": "EASST-4S", "place": "Amsterdam",
      "title": "Neurorights on YouTube: investigating ethical considerations of neurotechnology in public discourse", "theme": "brain"},
-    {"date": "2023-07-17", "shown": "Jul 2023", "kind": "Talk", "event": "IC2S2", "place": "Copenhagen",
+    {"date": "2023-07-20", "shown": "20 Jul 2023", "kind": "Talk", "event": "IC2S2", "place": "Copenhagen",
      "title": "Decoding the discourse: analyzing the linguistic features and strategies behind the Querdenken movement's COVID-19 narrative", "theme": "radical"},
 ]
 
@@ -309,7 +319,7 @@ def layout(path, title, description, active, body, active_theme=None, jsonld=Non
 <aside class="side">
 {photo_side}
 <a class="who" href="/"><span class="name">{NAME}</span><span class="pron">he/him</span></a>
-<div class="role">Doctoral researcher<br>Chair of Ethics of AI and Neuroscience<br>Technical University of Munich</div>
+<div class="role">Doctoral researcher<br><a href="{CHAIR_URL}">Chair of Ethics of AI and Neuroscience</a><br>Technical University of Munich</div>
 <nav class="nav" aria-label="Main">
 {nav_links(active, active_theme)}
 </nav>
@@ -366,11 +376,11 @@ def page_home(pubs):
     body = f"""
 <div class="mobile-only mobile-intro">
 <img src="{PHOTO}" alt="Portrait of {NAME}" width="132" height="168">
-<div class="role"><span class="muted">he/him</span><br>Doctoral researcher, Chair of Ethics of AI and Neuroscience, Technical University of Munich</div>
+<div class="role"><span class="muted">he/him</span><br>Doctoral researcher, <a href="{CHAIR_URL}">Chair of Ethics of AI and Neuroscience</a>, Technical University of Munich</div>
 </div>
 <section>
 <h1 class="lead">{e(LEAD)}</h1>
-<p class="intro">I work on <a href="/research/#harmony">HARMONY</a>, which studies health information on TikTok among young adults, using data they donate from their own accounts. My work combines computational text analysis, surveys and ethics. I am supervised by Marcello Ienca. From October 2025 to January 2026 I was a Fulbright Visiting Scholar at the Stanford Social Media Lab.</p>
+<p class="intro">I work on <a href="{HARMONY_URL}">HARMONY</a>, which studies health information on TikTok among young adults, using data they donate from their own accounts. My work combines computational text analysis, surveys and ethics. I am supervised by <a href="{CHAIR_URL}">Marcello Ienca</a>. From October 2025 to January 2026 I was a Fulbright Visiting Scholar at the <a href="{SML_URL}">Stanford Social Media Lab</a>.</p>
 </section>
 <div class="mobile-only mobile-contact">
 {contact_links()}
@@ -415,7 +425,8 @@ def page_research_index():
         f'<div class="entry"><h2 class="item"><a href="/research/{t["slug"]}/">{e(t["name"])}</a></h2><p>{e(t["summary"])}</p></div>'
         for t in THEMES)
     projects = "".join(
-        f'<section id="{k}"><h3 class="item">{e(p["name"])}</h3>' + (f'<p class="muted">{e(p["when"])}</p>' if p["when"] else "") + f'<p class="intro">{e(p["text"])}</p></section>'
+        f'<section id="{k}"><h3 class="item">{e(p["name"])}</h3>' + (f'<p class="muted">{e(p["when"])}</p>' if p["when"] else "") + f'<p class="intro">{e(p["text"])}</p>'
+        + (f'<p class="small"><a href="{p["url"]}">{"Official project page" if k == "harmony" else "TUM Global Incentive Fund"}</a></p>' if p.get("url") else "") + '</section>'
         for k, p in PROJECTS.items())
     body = f"""
 <section>
@@ -441,8 +452,10 @@ def page_theme(t, pubs):
     projects = ""
     if t["projects"]:
         projects = '<section><h2 class="label">Projects</h2>' + "".join(
-            f'<p><a href="/research/#{k}">{e(PROJECTS[k]["name"])}</a>: {e(PROJECTS[k]["text"].split(". ")[0])}.</p>' for k in t["projects"]) + "</section>"
-    talks = [x for x in sorted(TALKS, key=lambda x: x["date"], reverse=True) if x["theme"] == t["key"]]
+            f'<p><a href="/research/#{k}">{e(PROJECTS[k]["name"])}</a></p>' for k in t["projects"]) + "</section>"
+    mine_up = [x for x in upcoming() if x["theme"] == t["key"]]
+    mine_past = [x for x in sorted(TALKS, key=lambda x: x["date"], reverse=True) if x["theme"] == t["key"] and x not in mine_up]
+    talks = mine_up + mine_past
     talks_html = ('<section><h2 class="label">Talks</h2>' + "".join(talk_line(x) for x in talks) + "</section>") if talks else ""
     mine = [p for p in pubs if p.get("theme") == t["bib_theme"]]
     if mine:
