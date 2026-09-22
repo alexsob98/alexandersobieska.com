@@ -318,8 +318,8 @@ def layout(path, title, description, active, body, active_theme=None, jsonld=Non
     photo_side = f'<img class="photo" src="{PHOTO}" alt="Porträt von {NAME}" width="300" height="380">' if (home and de) else (f'<img class="photo" src="{PHOTO}" alt="Portrait of {NAME}" width="300" height="380">' if home else "")
     hreflang = ""
     if path in LANG_PAIR:
-        en_url = SITE + ("/" if path == "/" else LANG_PAIR[path])
-        de_url = SITE + ("/de/" if path == "/de/" else LANG_PAIR[path])
+        en_url = SITE + (path if not de else LANG_PAIR[path])
+        de_url = SITE + (LANG_PAIR[path] if not de else path)
         hreflang = (f'<link rel="alternate" hreflang="en" href="{en_url}">\n'
                     f'<link rel="alternate" hreflang="de" href="{de_url}">\n'
                     f'<link rel="alternate" hreflang="x-default" href="{en_url}">\n')
@@ -461,21 +461,78 @@ def page_home(pubs):
 
 
 DE_PARTS = [
-    ("tiktok-recommendations-health-misinformation", "Was TikTok zeigt und was Menschen ansehen",
-     "Junge Erwachsene spenden ihren TikTok-Verlauf. Er verzeichnet, welche Videos das Empfehlungssystem ausgespielt hat und wie lange sie auf dem Bildschirm waren. Zusammen mit Befragungen zeigt das, wie viele Gesundheitsinformationen und Fehlinformationen bei den Teilnehmenden ankommen und wie viel davon sie sich ansehen."),
-    ("neuroethics-online-public-discussion", "\u201eDas Gehirn\u201c in der Öffentlichkeit",
-     "Wie im Internet über \u201edas Gehirn\u201c, ADHS und Neurotechnologie gesprochen wird, welche ethischen Fragen die Öffentlichkeit dabei stellt und was die Neuroethik daraus lernen kann."),
-    ("online-radicalization-misinformation", "Radikalisierung und Fehlinformationen",
-     "Wie Bewegungen ihre Erzählungen aufbauen und wie sich Sprache verändert, wenn sich Menschen extremen Positionen annähern: von der Querdenken-Bewegung während der Corona-Pandemie bis zu radikalen und polarisierenden Inhalten in den TikTok-Feeds junger Erwachsener in Bayern (Projekt TikTalks)."),
-    ("large-language-models-clinical-communication-information", "Sprachmodelle und die Suche nach Informationen",
-     "Wie große Sprachmodelle die Kommunikation in der Medizin und die Suche nach Informationen verändern – und ob KI-Chatbots über umstrittene historische Ereignisse in manchen Sprachen weniger vollständig berichten als in anderen."),
+    {
+        "en": "tiktok-recommendations-health-misinformation",
+        "slug": "tiktok-empfehlungssystem-gesundheitsinformationen",
+        "name": "Was TikTok zeigt und was Menschen ansehen",
+        "seo": "TikTok-Empfehlungssystem, Gesundheitsinformationen und Fehlinformationen: was der Feed zeigt und was Menschen ansehen",
+        "short": "Junge Erwachsene spenden ihren TikTok-Verlauf. Er verzeichnet, welche Videos das Empfehlungssystem ausgespielt hat und wie lange sie auf dem Bildschirm waren. Zusammen mit Befragungen zeigt das, wie viele Gesundheitsinformationen und Fehlinformationen bei den Teilnehmenden ankommen und wie viel davon sie sich ansehen.",
+        "body": [
+            "Wer Empfehlungssysteme untersucht, sieht meist nur eine Seite: entweder, was eine Plattform ausspielt, gemessen mit Testkonten, oder was Nutzerinnen und Nutzer erinnern, erhoben in Befragungen. Beides sagt nicht, was eine bestimmte Person tatsächlich angesehen hat.",
+            "Im Projekt HARMONY spenden junge Erwachsene ihren TikTok-Verlauf. Er verzeichnet jedes Video, das der Feed ausgespielt hat, und wie lange es auf dem Bildschirm blieb. Zusammen mit Befragungen lässt sich damit fragen, wie viele Gesundheitsinformationen und wie viele Fehlinformationen bei den Teilnehmenden ankommen, wie viel davon sie sich ansehen statt weiterzuwischen, und ob das mit ihrem Wohlbefinden zusammenhängt.",
+        ],
+        "steps": [
+            "Die Teilnehmenden beantworten Fragen zu Gesundheit und Wohlbefinden.",
+            "Sie laden ihre eigenen TikTok-Daten herunter und spenden sie der Studie.",
+            "Der gespendete Verlauf zeigt, welche Videos der Feed ausgespielt hat und wie lange sie auf dem Bildschirm waren.",
+            "Beides zusammen zeigt, was die Plattform ausgespielt hat und was die Person davon angesehen hat.",
+        ],
+        "bib_theme": "feed",
+    },
+    {
+        "en": "neuroethics-online-public-discussion",
+        "slug": "neuroethik-oeffentliche-debatte",
+        "name": "\u201eDas Gehirn\u201c in der Öffentlichkeit",
+        "seo": "Neurotechnologie und Neuroethik in der öffentlichen Debatte im Internet",
+        "short": "Wie im Internet über \u201edas Gehirn\u201c, ADHS und Neurotechnologie gesprochen wird, welche ethischen Fragen die Öffentlichkeit dabei stellt und was die Neuroethik daraus lernen kann.",
+        "body": [
+            "Aussagen über \u201edas Gehirn\u201c, über ADHS und über Neurotechnologie begegnen den meisten Menschen heute in kurzen Videos, nicht in Fachzeitschriften. Dieser Teil meiner Arbeit fragt, wie im Internet über diese Themen gesprochen wird, welche ethischen Fragen die Öffentlichkeit dabei stellt und was die Neuroethik daraus lernen kann.",
+            "Ethik ist die Untersuchung der Frage, wie wir handeln sollen und was wir einander schulden. Die Neuroethik wendet das auf Hirnforschung und Neurotechnologie an: etwa darauf, was sich ändert, wenn ein Gerät Hirnaktivität aufzeichnen oder beeinflussen kann, oder wenn Menschen beginnen, sich selbst über ihr Gehirn zu erklären.",
+        ],
+        "steps": [],
+        "bib_theme": "neuroethics",
+    },
+    {
+        "en": "online-radicalization-misinformation",
+        "slug": "radikalisierung-fehlinformationen-online",
+        "name": "Radikalisierung und Fehlinformationen",
+        "seo": "Radikalisierung und Fehlinformationen im Netz: Sprache, Bewegungen und Plattformen",
+        "short": "Wie Bewegungen ihre Erzählungen aufbauen und wie sich Sprache verändert, wenn sich Menschen extremen Positionen annähern.",
+        "body": [
+            "Wie bauen Bewegungen und Gemeinschaften ihre Erzählungen auf, und wie verändert sich Sprache, wenn sich Menschen extremen Positionen annähern?",
+            "Eine veröffentlichte Arbeit untersucht die Sprache der Querdenken-Bewegung während der Corona-Pandemie. Querdenken ist eine Bewegung, die sich 2020 in Deutschland gegen die Pandemiemaßnahmen der Regierung formierte.",
+            "In meiner Masterarbeit habe ich die Sprache des Forums r/Incels untersucht, in dem sich Männer als \u201eunfreiwillig zölibatär\u201c beschreiben, und wie sich diese Sprache im Verlauf einer Radikalisierung verändert.",
+            "Im Projekt TikTalks geht es um radikale und polarisierende Inhalte auf TikTok und darum, wie junge Erwachsene in Bayern ihnen in ihren Feeds begegnen.",
+        ],
+        "steps": [],
+        "bib_theme": "radicalization",
+    },
+    {
+        "en": "large-language-models-clinical-communication-information",
+        "slug": "sprachmodelle-medizin-informationssuche",
+        "name": "Sprachmodelle und die Suche nach Informationen",
+        "seo": "Große Sprachmodelle in der medizinischen Kommunikation und bei der Suche nach Informationen",
+        "short": "Wie große Sprachmodelle die Kommunikation in der Medizin und die Suche nach Informationen verändern.",
+        "body": [
+            "Große Sprachmodelle verändern, wie in der Medizin miteinander gesprochen wird und wie Menschen nach Informationen suchen. Eine frühere Arbeit befasst sich mit der Einwilligung nach Aufklärung: Sie zeigt, dass Einwilligung mehr ist als ein Austausch von Worten, und dass genau das begrenzt, was Sprachmodelle in einem Aufklärungsgespräch leisten können.",
+            "Ein weiterer Teil meiner Arbeit fragt, ob große Sprachmodelle über umstrittene historische Ereignisse, etwa Massenverbrechen, in manchen Sprachen weniger vollständig berichten als in anderen.",
+        ],
+        "steps": [],
+        "bib_theme": "llm-medethics",
+    },
 ]
+
+DE_BASE = "/de/forschung/"
+
+for _p in DE_PARTS:
+    LANG_PAIR[f"/research/{_p['en']}/"] = DE_BASE + _p["slug"] + "/"
+    LANG_PAIR[DE_BASE + _p["slug"] + "/"] = f"/research/{_p['en']}/"
 
 
 def page_de():
     parts = "\n".join(
-        f'<div class="theme"><a href="/research/{slug}/" hreflang="en">{e(name)}</a><p>{e(text)}</p></div>'
-        for slug, name, text in DE_PARTS)
+        f'<div class="theme"><a href="{DE_BASE}{t["slug"]}/">{e(t["name"])}</a><p>{e(t["short"])}</p></div>'
+        for t in DE_PARTS)
     body = f"""
 <div class="mobile-only mobile-intro">
 <img src="{PHOTO}" alt="Porträt von {NAME}" width="132" height="168">
@@ -493,7 +550,7 @@ def page_de():
 <div class="themes">
 {parts}
 </div>
-<p class="small muted">Ausführliche Beschreibungen, Projekte, Publikationen und Vorträge finden Sie auf den englischen Seiten; die Überschriften oben führen dorthin.</p>
+<p class="small muted">Die Überschriften führen zu einer ausführlicheren deutschen Seite. Projekte, alle Publikationen und die Vorträge stehen auf den englischen Seiten.</p>
 </section>
 <section>
 <h2 class="label">Kontakt</h2>
@@ -503,6 +560,34 @@ def page_de():
     write("/de/", layout("/de/", f"{NAME}: Forschung zu TikTok, Gesundheitsinformationen und Neuroethik",
                          "Alexander Sobieska ist Doktorand an der Technischen Universität München und untersucht, welche Gesundheitsinformationen und Fehlinformationen TikTok jungen Erwachsenen zeigt, was sie davon tatsächlich ansehen und wie im Internet über das Gehirn und Neurotechnologie gesprochen wird.",
                          "home", body, home=True, lang="de"))
+
+
+def page_de_part(t, pubs):
+    paras = "\n".join(f'<p class="{"big" if i == 0 else "intro"}">{e(x)}</p>' for i, x in enumerate(t["body"]))
+    steps = ""
+    if t["steps"]:
+        steps = '<section><h2 class="label">Wie die Daten zusammenkommen</h2><ol class="steps">' + "".join(f"<li>{e(x)}</li>" for x in t["steps"]) + "</ol></section>"
+    mine = [x for x in pubs if x.get("theme") == t["bib_theme"]]
+    if mine:
+        pubs_html = '<section><h2 class="label">Publikationen</h2>' + "".join(f"<p>{cite_html(x)}</p>" for x in mine) + "</section>"
+    else:
+        pubs_html = '<section><h2 class="label">Publikationen</h2><p class="muted">Arbeiten aus diesem Teil erscheinen hier, sobald sie veröffentlicht sind.</p></section>'
+    others = " ".join(f'<a href="{DE_BASE}{o["slug"]}/">{e(o["name"])}</a>' for o in DE_PARTS if o is not t)
+    body = f"""
+<section>
+<p class="crumb"><a href="/de/">Startseite</a> / Forschung</p>
+<h1 class="title">{e(t["name"])}</h1>
+{paras}
+</section>
+{steps}
+{pubs_html}
+<section><h2 class="label">Mehr dazu</h2>
+<p class="intro"><a href="/research/{t["en"]}/" hreflang="en" lang="en">Die englische Fassung dieser Seite</a> nennt zusätzlich die Projekte und die Vorträge zu diesem Teil der Arbeit.</p>
+</section>
+<section><h2 class="label">Weitere Teile meiner Arbeit</h2><div class="inline-links">{others}</div></section>
+"""
+    path = DE_BASE + t["slug"] + "/"
+    write(path, layout(path, t["seo"], t["short"], "research", body, lang="de"))
 
 
 def page_research_index():
@@ -548,6 +633,7 @@ def page_theme(t, pubs):
     else:
         pubs_html = '<section><h2 class="label">Publications</h2><p class="muted">Papers from this work will be listed here as they are published. See all <a href="/publications/">publications</a>.</p></section>'
     others = " ".join(f'<a href="/research/{o["slug"]}/">{e(o["name"])}</a>' for o in THEMES if o is not t)
+    de_link = LANG_PAIR.get(f"/research/{t['slug']}/", "/de/")
     body = f"""
 <section>
 <p class="crumb"><a href="/research/">Research</a> / {e(t["seo_title"].split(":")[0])}</p>
@@ -558,6 +644,7 @@ def page_theme(t, pubs):
 {projects}
 {talks_html}
 {pubs_html}
+<section><h2 class="label">Auf Deutsch</h2><p class="intro"><a href="{de_link}" hreflang="de" lang="de">Diese Seite auf Deutsch</a></p></section>
 <section><h2 class="label">Other research</h2><div class="inline-links">{others}</div></section>
 """
     path = f"/research/{t['slug']}/"
@@ -719,10 +806,20 @@ def extras():
         '<text x="32" y="42" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28" font-weight="700" fill="#fff">AS</text></svg>')
     urls = ["/", "/research/", "/publications/"] + (["/legal/"] if LEGAL_READY else []) + [f"/research/{t['slug']}/" for t in THEMES]
     urls.insert(1, "/de/")
+    for _t in DE_PARTS:
+        urls.append(DE_BASE + _t["slug"] + "/")
     alt = (f'<xhtml:link rel="alternate" hreflang="en" href="{SITE}/"/>'
            f'<xhtml:link rel="alternate" hreflang="de" href="{SITE}/de/"/>'
            f'<xhtml:link rel="alternate" hreflang="x-default" href="{SITE}/"/>')
-    sm = "".join(f"<url><loc>{SITE}{u}</loc><lastmod>{TODAY.isoformat()}</lastmod>{alt if u in ('/', '/de/') else ''}</url>" for u in urls)
+    def alts(u):
+        if u not in LANG_PAIR:
+            return ""
+        en = u if not u.startswith("/de/") else LANG_PAIR[u]
+        deu = LANG_PAIR[u] if not u.startswith("/de/") else u
+        return (f'<xhtml:link rel="alternate" hreflang="en" href="{SITE}{en}"/>'
+                f'<xhtml:link rel="alternate" hreflang="de" href="{SITE}{deu}"/>'
+                f'<xhtml:link rel="alternate" hreflang="x-default" href="{SITE}{en}"/>')
+    sm = "".join(f"<url><loc>{SITE}{u}</loc><lastmod>{TODAY.isoformat()}</lastmod>{alts(u)}</url>" for u in urls)
     (OUT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">{sm}</urlset>\n')
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
 
@@ -735,6 +832,8 @@ def main():
     pubs = parse_bib(SRC / "publications.bib")
     page_home(pubs)
     page_de()
+    for _t in DE_PARTS:
+        page_de_part(_t, pubs)
     page_research_index()
     for t in THEMES:
         page_theme(t, pubs)
