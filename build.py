@@ -32,6 +32,7 @@ PHOTO = "/img/alexander-sobieska.jpg"
 HARMONY_URL = "https://portal.fis.tum.de/en/projects/harmony-health-related-mis-information-on-social-media-and-its-im/"
 CHAIR_URL = "https://www.pm.mh.tum.de/en/ethics/institute/team/marcello-ienca/"
 SML_URL = "https://sml.stanford.edu/"
+INSTITUTE_URL = "https://www.pm.mh.tum.de/ethics/startseite/"
 GIF_URL = "https://www.global.tum.de/en/global/gif/"
 CV_PDF = "/Alexander_Sobieska_CV.pdf"
 CV_SOURCE = ROOT.parent / "04_cv" / "CV_Sobieska_Alexander_2026-09_public.pdf"
@@ -327,7 +328,7 @@ def layout(path, title, description, active, body, active_theme=None, jsonld=Non
 <aside class="side">
 {photo_side}
 <a class="who" href="/"><span class="name">{NAME}</span><span class="pron">he/him</span></a>
-<div class="role">Doctoral researcher<br><a href="{CHAIR_URL}">Chair of Ethics of AI and Neuroscience</a><br>Technical University of Munich</div>
+<div class="role">Doctoral researcher<br><a href="{INSTITUTE_URL}">Chair of Ethics of AI and Neuroscience</a><br>Technical University of Munich</div>
 <nav class="nav" aria-label="Main">
 {nav_links(active, active_theme)}
 </nav>
@@ -384,7 +385,7 @@ def page_home(pubs):
     body = f"""
 <div class="mobile-only mobile-intro">
 <img src="{PHOTO}" alt="Portrait of {NAME}" width="132" height="168">
-<div class="role"><span class="muted">he/him</span><br>Doctoral researcher, <a href="{CHAIR_URL}">Chair of Ethics of AI and Neuroscience</a>, Technical University of Munich</div>
+<div class="role"><span class="muted">he/him</span><br>Doctoral researcher, <a href="{INSTITUTE_URL}">Chair of Ethics of AI and Neuroscience</a>, Technical University of Munich</div>
 </div>
 <section>
 <h1 class="lead">{e(LEAD)}</h1>
