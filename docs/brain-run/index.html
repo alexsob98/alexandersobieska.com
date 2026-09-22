@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Brain Run</title>
+<meta name="description" content="A small hidden game.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css">
+<style>
+.game-wrap{max-width:840px;margin:0 auto;padding:48px 16px;display:flex;flex-direction:column;gap:16px}
+.game-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.game-head h1{font-size:28px;font-weight:500;letter-spacing:-0.01em}
+.hud{font-size:14px;color:var(--muted)}
+canvas{width:100%;height:auto;display:block;border-bottom:2px solid var(--ink);touch-action:manipulation}
+.hint{font-size:15px;color:var(--muted);line-height:1.55}
+.hint kbd{font:inherit;border:1px solid var(--rule);padding:1px 6px;border-radius:3px}
+.scores{display:flex;gap:24px;font-size:15px}
+.scores b{font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<div class="game-wrap">
+<div class="game-head">
+<h1>Brain Run</h1>
+<p class="hud" id="hud">attention: 0 s &nbsp;·&nbsp; best: 0 s</p>
+</div>
+<canvas id="c" width="1680" height="520" aria-label="A small game: a brain runs, jumps over phone screens and ducks under social media icons."></canvas>
+<div class="scores" id="result" hidden><span>served: <b id="served">0</b></span><span>dodged: <b id="dodged">0</b></span><span>watched: <b id="watched">0</b></span></div>
+<p class="hint"><kbd>Space</kbd> or tap to jump, hold <kbd>↓</kbd> to duck. Phone screens come along the ground, icons fly at head height. Nothing here is stored or sent anywhere.</p>
+<p class="hint"><a href="/">Back to the site</a></p>
+</div>
+<script>
+(function () {
+  var c = document.getElementById('c'), x = c.getContext('2d');
+  var W = 1680, H = 520, GROUND = H - 110; // drawn at 2x for sharpness
+  var ink = '#111111', blue = '#1740D1', grey = '#B8B8B2';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var state = 'idle', t = 0, speed = 9, dist = 0, best = 0, served = 0, dodged = 0, watched = 0;
+  var brain = { y: 0, vy: 0, duck: false };
+  var obstacles = [], night = false;
+
+  function reset() {
+    t = 0; speed = 9; dist = 0; served = 0; dodged = 0; watched = 0;
+    brain.y = 0; brain.vy = 0; brain.duck = false; obstacles = []; night = false;
+    document.getElementById('result').hidden = true;
+  }
+
+  // --- drawing -------------------------------------------------------------
+  function drawBrain(cx, cy, duck, dead) {
+    var r = duck ? 42 : 56, squash = duck ? 0.62 : 1;
+    x.save();
+    x.translate(cx, cy);
+    x.scale(1, squash);
+    x.lineWidth = 6; x.lineJoin = 'round'; x.strokeStyle = night ? '#F4F4F2' : ink; x.fillStyle = night ? '#14171C' : '#FFFFFF';
+    // outline: two lobes, bumpy top
+    x.beginPath();
+    x.moveTo(-r, 10);
+    x.bezierCurveTo(-r * 1.12, -r * 0.45, -r * 0.92, -r * 0.95, -r * 0.5, -r * 0.92);
+    x.bezierCurveTo(-r * 0.34, -r * 1.22, r * 0.02, -r * 1.24, r * 0.12, -r * 0.94);
+    x.bezierCurveTo(r * 0.5, -r * 1.16, r * 1.02, -r * 0.82, r * 0.98, -r * 0.24);
+    x.bezierCurveTo(r * 1.14, r * 0.1, r * 1.02, r * 0.58, r * 0.62, r * 0.78);
+    x.bezierCurveTo(r * 0.3, r * 1.02, -r * 0.42, r * 1.02, -r * 0.72, r * 0.72);
+    x.bezierCurveTo(-r * 1.02, r * 0.46, -r * 1.06, r * 0.26, -r, 10);
+    x.closePath(); x.fill(); x.stroke();
+    // folds
+    x.lineWidth = 4.5; x.lineCap = 'round';
+    x.beginPath();
+    x.moveTo(-r * 0.02, -r * 0.9); x.bezierCurveTo(r * 0.12, -r * 0.4, -r * 0.1, r * 0.2, r * 0.04, r * 0.86);
+    x.moveTo(-r * 0.66, -r * 0.42); x.bezierCurveTo(-r * 0.3, -r * 0.6, -r * 0.24, -r * 0.1, -r * 0.6, r * 0.06);
+    x.moveTo(-r * 0.62, r * 0.44); x.bezierCurveTo(-r * 0.3, r * 0.3, -r * 0.22, r * 0.56, -r * 0.44, r * 0.74);
+    x.moveTo(r * 0.68, -r * 0.5); x.bezierCurveTo(r * 0.3, -r * 0.62, r * 0.28, -r * 0.12, r * 0.66, r * 0.02);
+    x.moveTo(r * 0.64, r * 0.4); x.bezierCurveTo(r * 0.32, r * 0.28, r * 0.24, r * 0.56, r * 0.46, r * 0.72);
+    x.stroke();
+    // eye
+    x.fillStyle = night ? '#F4F4F2' : ink;
+    if (dead) {
+      x.lineWidth = 5;
+      x.beginPath();
+      x.moveTo(r * 0.3, -r * 0.6); x.lineTo(r * 0.62, -r * 0.28);
+      x.moveTo(r * 0.62, -r * 0.6); x.lineTo(r * 0.3, -r * 0.28);
+      x.stroke();
+    } else {
+      x.beginPath(); x.arc(r * 0.46, -r * 0.44, 6.5, 0, 7); x.fill();
+    }
+    x.restore();
+    // brain stem legs
+    x.strokeStyle = night ? '#F4F4F2' : ink; x.lineWidth = 6; x.lineCap = 'round';
+    var footY = cy + r * squash * 0.92;
+    var swing = (state === 'run' && brain.y === 0) ? Math.sin(t / 3.4) * 16 : 0;
+    if (!duck) {
+      x.beginPath();
+      x.moveTo(cx - 14, footY); x.lineTo(cx - 16 + swing, footY + 34);
+      x.moveTo(cx + 14, footY); x.lineTo(cx + 16 - swing, footY + 34);
+      x.stroke();
+    }
+  }
+
+  function drawPhone(o) {
+    var w = 64, h = o.tall ? 132 : 96, cx = o.x, cy = GROUND - h / 2;
+    x.save();
+    x.lineWidth = 5; x.strokeStyle = night ? '#F4F4F2' : ink; x.fillStyle = night ? '#14171C' : '#FFFFFF';
+    roundRect(cx - w / 2, cy - h / 2, w, h, 13); x.fill(); x.stroke();
+    x.strokeStyle = grey; x.lineWidth = 4;
+    var rows = o.tall ? 5 : 3;
+    for (var i = 0; i < rows; i++) {
+      x.beginPath();
+      x.moveTo(cx - w / 2 + 12, cy - h / 2 + 26 + i * 20);
+      x.lineTo(cx + w / 2 - 12 - (i % 2) * 10, cy - h / 2 + 26 + i * 20);
+      x.stroke();
+    }
+    x.restore();
+  }
+
+  function roundRect(px, py, w, h, r) {
+    x.beginPath();
+    x.moveTo(px + r, py); x.lineTo(px + w - r, py); x.quadraticCurveTo(px + w, py, px + w, py + r);
+    x.lineTo(px + w, py + h - r); x.quadraticCurveTo(px + w, py + h, px + w - r, py + h);
+    x.lineTo(px + r, py + h); x.quadraticCurveTo(px, py + h, px, py + h - r);
+    x.lineTo(px, py + r); x.quadraticCurveTo(px, py, px + r, py); x.closePath();
+  }
+
+  function drawIcon(o) {
+    var cx = o.x, cy = o.y, s = 1.45 + Math.sin((t + o.seed) / 14) * 0.08;
+    x.save(); x.translate(cx, cy); x.scale(s, s);
+    x.lineWidth = 5; x.strokeStyle = night ? '#F4F4F2' : ink; x.fillStyle = blue;
+    if (o.icon === 'heart') {
+      x.beginPath();
+      x.moveTo(0, 14);
+      x.bezierCurveTo(-22, -4, -14, -22, 0, -10);
+      x.bezierCurveTo(14, -22, 22, -4, 0, 14);
+      x.closePath(); x.fill(); x.stroke();
+    } else if (o.icon === 'play') {
+      x.beginPath(); x.arc(0, 0, 18, 0, 7); x.fillStyle = '#FFFFFF'; x.fill(); x.stroke();
+      x.beginPath(); x.moveTo(-6, -9); x.lineTo(11, 0); x.lineTo(-6, 9); x.closePath(); x.fillStyle = blue; x.fill();
+    } else if (o.icon === 'bell') {
+      x.beginPath();
+      x.moveTo(-14, 8); x.bezierCurveTo(-14, -14, 14, -14, 14, 8); x.closePath();
+      x.fillStyle = '#FFFFFF'; x.fill(); x.stroke();
+      x.beginPath(); x.moveTo(-4, 12); x.lineTo(4, 12); x.stroke();
+    } else { // at-sign
+      x.beginPath(); x.arc(0, 0, 17, 0.5, 5.6); x.stroke();
+      x.beginPath(); x.arc(0, 0, 7, 0, 7); x.stroke();
+    }
+    x.restore();
+  }
+
+  function spawn() {
+    var kind = Math.random();
+    if (kind < 0.58) obstacles.push({ type: 'phone', x: W + 80, tall: Math.random() < 0.35 });
+    else obstacles.push({ type: 'icon', x: W + 80, y: GROUND - 200 - Math.random() * 46, icon: ['heart', 'play', 'bell', 'at'][Math.floor(Math.random() * 4)], seed: Math.random() * 100 });
+    served++;
+  }
+
+  function hit(o) {
+    var bh = brain.duck ? 62 : 118, bw = brain.duck ? 96 : 84;
+    var bx = 150 - bw / 2, by = GROUND - bh - brain.y;
+    var ox, oy, ow, oh;
+    if (o.type === 'phone') {
+      oh = o.tall ? 132 : 96; ow = 64; ox = o.x - ow / 2; oy = GROUND - oh;
+    } else {
+      ow = 62; oh = 62; ox = o.x - ow / 2; oy = o.y - oh / 2;
+    }
+    var pad = 8; // forgiving edges
+    return bx + pad < ox + ow && bx + bw - pad > ox && by + pad < oy + oh && by + bh - pad > oy;
+  }
+
+  function loop() {
+    t++;
+    x.clearRect(0, 0, W, H);
+    if (night) { x.fillStyle = '#14171C'; x.fillRect(0, 0, W, H); }
+
+    // ground
+    x.strokeStyle = night ? '#4A515C' : grey; x.lineWidth = 4;
+    x.beginPath(); x.moveTo(0, GROUND + 26); x.lineTo(W, GROUND + 26); x.stroke();
+    for (var g = 0; g < 8; g++) {
+      var gx = (g * 240 - (dist % 240));
+      x.beginPath(); x.moveTo(gx, GROUND + 26); x.lineTo(gx + 60, GROUND + 26); x.lineWidth = 7; x.stroke(); x.lineWidth = 4;
+    }
+
+    if (state === 'run') {
+      dist += speed;
+      speed += 0.0016;
+      night = ((dist / 4000) | 0) % 2 === 1;
+      // physics
+      brain.vy -= 1.3;
+      brain.y += brain.vy;
+      if (brain.y <= 0) { brain.y = 0; brain.vy = 0; }
+      if (t % Math.max(38, 92 - ((speed - 9) * 6 | 0)) === 0) spawn();
+      for (var i = obstacles.length - 1; i >= 0; i--) {
+        var o = obstacles[i];
+        o.x -= speed;
+        if (hit(o)) { state = 'over'; watched++; showResult(); }
+        if (o.x < -80) { obstacles.splice(i, 1); dodged++; }
+      }
+      var secs = (dist / 220) | 0;
+      if (secs > best) best = secs;
+      document.getElementById('hud').innerHTML = 'attention: ' + secs + ' s &nbsp;·&nbsp; best: ' + best + ' s';
+    }
+
+    obstacles.forEach(function (o) { o.type === 'phone' ? drawPhone(o) : drawIcon(o); });
+    drawBrain(150, GROUND - (brain.duck ? 30 : 60) - brain.y, brain.duck, state === 'over');
+
+    if (state !== 'run') {
+      x.fillStyle = night ? '#F4F4F2' : ink;
+      x.font = '500 34px "Schibsted Grotesk", system-ui, sans-serif';
+      x.textAlign = 'center';
+      x.fillText(state === 'idle' ? 'press space to run' : 'your attention lasted ' + ((dist / 220) | 0) + ' s — press space', W / 2, 70);
+    }
+    requestAnimationFrame(loop);
+  }
+
+  function showResult() {
+    document.getElementById('served').textContent = served;
+    document.getElementById('dodged').textContent = dodged;
+    document.getElementById('watched').textContent = watched;
+    document.getElementById('result').hidden = false;
+  }
+
+  function jump() {
+    if (state !== 'run') { reset(); state = 'run'; return; }
+    if (brain.y === 0) brain.vy = 25;
+  }
+
+  document.addEventListener('keydown', function (ev) {
+    if (ev.code === 'Space' || ev.code === 'ArrowUp') { ev.preventDefault(); jump(); }
+    if (ev.code === 'ArrowDown') { brain.duck = state === 'run'; }
+  });
+  document.addEventListener('keyup', function (ev) { if (ev.code === 'ArrowDown') brain.duck = false; });
+  c.addEventListener('pointerdown', function (ev) { ev.preventDefault(); jump(); });
+
+  if (reduce) {
+    document.getElementById('hud').textContent = 'reduced motion is on — press space if you want to run anyway';
+  }
+  loop();
+})();
+</script>
+</body>
+</html>

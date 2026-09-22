@@ -95,5 +95,11 @@
 <p class="foot"><a href="/legal/">Impressum and privacy</a> · <a href="/de/" hreflang="de" lang="de">Deutsch</a></p>
 </main>
 </div>
+<script>
+// Easter egg: type "brain" anywhere on an English page.
+(function(){var k="";document.addEventListener("keydown",function(e){
+if(e.metaKey||e.ctrlKey||e.altKey||/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName))return;
+k=(k+e.key.toLowerCase()).slice(-5);if(k==="brain")location.href="/brain-run/";});})();
+</script>
 </body>
 </html>
