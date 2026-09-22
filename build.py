@@ -109,8 +109,8 @@ THEMES = [
         "seo_title": "Large language models in clinical communication and information retrieval",
         "summary": "How large language models change clinical communication and the way people look up information.",
         "body": [
-            "Large language models are changing how doctors and patients communicate and how people look up information. Earlier work with Georg Starke looked at informed consent: it argues that consent is more than an exchange of words, which limits what language models can do in consent conversations. A side project reported on teaching epistemic humility to medical students with virtual reality.",
-            "The current project asks whether large language models give a less complete account of contested historical events, such as mass atrocities, when asked in some languages than in others.",
+            "Large language models are changing how doctors and patients communicate and how people look up information. Earlier work with Georg Starke looked at informed consent: it argues that consent is more than an exchange of words, which limits what language models can do in consent conversations.",
+            "Another part of my work asks whether large language models give a less complete account of contested historical events, such as mass atrocities, when asked in some languages than in others.",
         ],
         "projects": ["llmhistory"],
         "bib_theme": "llm-medethics",
