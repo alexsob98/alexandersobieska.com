@@ -37,11 +37,8 @@ DESCRIPTION = ("Alexander Sobieska is a doctoral researcher at the Technical Uni
                "radicalization, using data that users donate from their own accounts.")
 
 NAV = [
-    ("research", "/research/", "Research"),
-    ("publications", "/publications/", "Publications"),
-    ("talks", "/talks/", "Talks and teaching"),
-    ("projects", "/projects/", "Projects"),
-    ("press", "/press/", "Press"),
+    ("research", "/research/", "Research and projects"),
+    ("publications", "/publications/", "Publications and talks"),
 ]
 
 # ---------------------------------------------------------------- research themes
@@ -145,7 +142,7 @@ TALKS = [
      "title": "The TikTalks project", "theme": "radical"},
     {"date": "2025-05-27", "shown": "27 May 2025", "kind": "Talk", "event": "re:publica 25", "place": "Berlin",
      "title": "Gen Z \u201cradicalized through TikTok\u201d: myth or reality? (with Yasmin Al-Douri)", "theme": "radical"},
-    {"date": "2025-04-25", "shown": "25 Apr 2025", "kind": "Joint session with Georg Starke, Katherine Bassil, Ralf Jox and Sabine Salloch", "event": "Neuroethics 2025, annual meeting of INS and SINe", "place": "Munich",
+    {"date": "2025-04-25", "shown": "25 Apr 2025", "kind": "Joint session with Georg Starke, Ralf Jox and Sabine Salloch", "event": "Neuroethics 2025, annual meeting of INS and SINe", "place": "Munich",
      "title": "Digital bioethics: computational methods for addressing neuroethical questions", "theme": "brain"},
     {"date": "2025-04-23", "shown": "23 Apr 2025", "kind": "Poster", "event": "Neuroethics 2025, annual meeting of INS and SINe", "place": "Munich",
      "title": "Exploring public discourse on neurotechnology: a computational analysis of sentiment, terminology, and ethical concerns on social media", "theme": "brain"},
@@ -164,18 +161,13 @@ ORGANISED = [
     ("Apr 2025", "Neuroethics 2025, annual meeting of INS and SINe, Munich (local organising team)"),
 ]
 
-TEACHING = [
-    ("since 2023", "Seminar on Medical Ethics and Palliative Care", "Technical University of Munich"),
-    ("2024", "Globalization of Politics; Globalized Societies", "Fresenius University of Applied Sciences, Munich"),
-    ("2023", "Political Theory", "Fresenius University of Applied Sciences, Munich"),
-]
-
 AWARDS = [
     ("2026–2027", "TikTalks II. Bavarian State Ministry for Family, Labour and Social Affairs, about €100,000 (with Yasmin Al-Douri, Responsible Technology Hub)"),
     ("2025", "Fulbright Visiting Scholar Award, Stanford Social Media Lab"),
-    ("2025", "Top presentation recognition for a poster, Neuroethics 2025 (International Neuroethics Society), Munich"),
+    ("2025", "Best Presenter Award, International Neuroethics Society annual meeting (Neuroethics 2025, Munich)"),
     ("2024–2026", "TikTalks: programme for the analysis of actors behind radical content on TikTok. Bavarian State Ministry for Family, Labour and Social Affairs, about €130,000 (with Yasmin Al-Douri, Responsible Technology Hub)"),
     ("2024", "Doctoral scholarship, Graduate Center of the Bavarian Research Institute for Digital Transformation (bidt)"),
+    ("2024", "Best Presenter Award, International Neuroethics Society annual meeting"),
     ("2021–2023", "Scholar, TUM: Junge Akademie"),
     ("2016–2020", "Scholar, Studienstiftung des Deutschen Volkes"),
 ]
@@ -275,8 +267,8 @@ def nav_links(active, active_theme=None, cls=""):
 
 
 def contact_links():
-    return (f'<a href="mailto:{EMAIL}">{EMAIL}</a>\n'
-            f'<a href="{BOOKING}">Book a call</a>\n'
+    return (f'<a href="mailto:{EMAIL}">Write me</a>\n'
+            f'<a href="{BOOKING}">Call me</a>\n'
             f'<a href="{SCHOLAR}">Google Scholar</a>\n'
             f'<a href="{ORCID}">ORCID</a>\n'
             f'<a href="{LINKEDIN}">LinkedIn</a>')
@@ -374,7 +366,7 @@ def page_home(pubs):
 </div>
 <section>
 <h1 class="lead">{e(LEAD)}</h1>
-<p class="intro">I work on <a href="/projects/#harmony">HARMONY</a>, which studies health information on TikTok among young adults, using data they donate from their own accounts. My work combines computational text analysis, surveys and ethics. I am supervised by Marcello Ienca. From October 2025 to January 2026 I was a Fulbright Visiting Scholar at the Stanford Social Media Lab.</p>
+<p class="intro">I work on <a href="/research/#harmony">HARMONY</a>, which studies health information on TikTok among young adults, using data they donate from their own accounts. My work combines computational text analysis, surveys and ethics. I am supervised by Marcello Ienca. From October 2025 to January 2026 I was a Fulbright Visiting Scholar at the Stanford Social Media Lab.</p>
 </section>
 <div class="mobile-only mobile-contact">
 {contact_links()}
@@ -418,16 +410,23 @@ def page_research_index():
     items = "\n".join(
         f'<div class="entry"><h2 class="item"><a href="/research/{t["slug"]}/">{e(t["name"])}</a></h2><p>{e(t["summary"])}</p></div>'
         for t in THEMES)
+    projects = "".join(
+        f'<section id="{k}"><h3 class="item">{e(p["name"])}</h3>' + (f'<p class="muted">{e(p["when"])}</p>' if p["when"] else "") + f'<p class="intro">{e(p["text"])}</p></section>'
+        for k, p in PROJECTS.items())
     body = f"""
 <section>
-<h1 class="title">Research</h1>
+<h1 class="title">Research and projects</h1>
 <p class="big">{e(LEAD)} My work falls into four themes.</p>
 </section>
 <section>
 {items}
 </section>
+<section>
+<h2 class="label">Projects</h2>
+</section>
+{projects}
 """
-    write("/research/", layout("/research/", "Research", "Research themes of " + NAME + ": TikTok recommendations and health misinformation, neuroethics online, radicalization, and language models in medical ethics.", "research", body))
+    write("/research/", layout("/research/", "Research and projects", "Research themes of " + NAME + ": TikTok recommendations and health misinformation, neuroethics online, radicalization, and language models in medical ethics.", "research", body))
 
 
 def page_theme(t, pubs):
@@ -438,7 +437,7 @@ def page_theme(t, pubs):
     projects = ""
     if t["projects"]:
         projects = '<section><h2 class="label">Projects</h2>' + "".join(
-            f'<p><a href="/projects/#{k}">{e(PROJECTS[k]["name"])}</a>: {e(PROJECTS[k]["text"].split(". ")[0])}.</p>' for k in t["projects"]) + "</section>"
+            f'<p><a href="/research/#{k}">{e(PROJECTS[k]["name"])}</a>: {e(PROJECTS[k]["text"].split(". ")[0])}.</p>' for k in t["projects"]) + "</section>"
     talks = [x for x in sorted(TALKS, key=lambda x: x["date"], reverse=True) if x["theme"] == t["key"]]
     talks_html = ('<section><h2 class="label">Talks</h2>' + "".join(talk_line(x) for x in talks) + "</section>") if talks else ""
     mine = [p for p in pubs if p.get("theme") == t["bib_theme"]]
@@ -480,9 +479,10 @@ def page_publications(pubs):
         f'<button type="button" class="chip" data-f="theme" data-v="{t["bib_theme"]}" aria-pressed="false">{e(t["short"])}</button>' for t in THEMES)
     body = f"""
 <section>
-<h1 class="title">Publications</h1>
-<p class="intro">Also on <a href="{SCHOLAR}">Google Scholar</a> and <a href="{ORCID}">ORCID</a>.</p>
+<h1 class="title">Publications and talks</h1>
+<p class="intro">Also on <a href="{SCHOLAR}">Google Scholar</a> and <a href="{ORCID}">ORCID</a>. Jump to <a href="#talks">talks</a>.</p>
 </section>
+<h2 class="label">Publications</h2>
 <div class="filters" hidden>
 <div class="filter-row" role="group" aria-label="Filter by type"><span class="lbl">Type</span>{type_chips}</div>
 <div class="filter-row" role="group" aria-label="Filter by theme"><span class="lbl">Theme</span>{theme_chips}</div>
@@ -516,61 +516,24 @@ def page_publications(pubs):
   }});
 }})();
 </script>
+{talks_block()}
 """
-    write("/publications/", layout("/publications/", "Publications", "Publications by " + NAME + " on health misinformation, neuroethics, radicalization and language models in medical ethics.", "publications", body))
+    write("/publications/", layout("/publications/", "Publications and talks", "Publications by " + NAME + " on health misinformation, neuroethics, radicalization and language models in medical ethics.", "publications", body))
 
 
-def page_talks():
+def talks_block():
     up = upcoming()
     past = [t for t in sorted(TALKS, key=lambda t: t["date"], reverse=True) if t not in up]
-    up_html = ('<section><h2 class="label">Upcoming</h2>' + "".join(talk_line(t) for t in up) + "</section>") if up else ""
-    body = f"""
-<section>
-<h1 class="title">Talks and teaching</h1>
-<p class="intro">For talk invitations, <a href="{BOOKING}">book a call</a> or write to <a href="mailto:{EMAIL}">{EMAIL}</a>. Talks in English or German.</p>
+    up_html = ('<section><h3 class="item">Upcoming</h3>' + "".join(talk_line(t) for t in up) + "</section>") if up else ""
+    return f"""
+<section id="talks"><h2 class="label">Talks</h2>
+<p class="intro">For talk invitations, <a href="mailto:{EMAIL}">write me</a> or <a href="{BOOKING}">call me</a>. Talks in English or German.</p>
 </section>
 {up_html}
-<section><h2 class="label">Selected talks</h2>{"".join(talk_line(t) for t in past)}</section>
-<section><h2 class="label">Workshops and meetings organised</h2>{"".join(f'<p><strong>{e(w)}</strong> · {e(t)}</p>' for w, t in ORGANISED)}</section>
-<section><h2 class="label">Teaching</h2>{"".join(f'<p><strong>{e(w)}</strong> · {e(c)}, {e(i)}</p>' for w, c, i in TEACHING)}</section>
-<section><h2 class="label">Awards and funding</h2>{"".join(f'<p><strong>{e(w)}</strong> · {e(a)}</p>' for w, a in AWARDS)}</section>
+<section><h3 class="item">Selected talks</h3>{"".join(talk_line(t) for t in past)}</section>
+<section><h3 class="item">Workshops and meetings organised</h3>{"".join(f'<p><strong>{e(w)}</strong> · {e(t)}</p>' for w, t in ORGANISED)}</section>
+<section><h3 class="item">Awards and funding</h3>{"".join(f'<p><strong>{e(w)}</strong> · {e(a)}</p>' for w, a in AWARDS)}</section>
 """
-    write("/talks/", layout("/talks/", "Talks and teaching", "Talks, teaching, awards and funding of " + NAME + ".", "talks", body))
-
-
-def page_projects():
-    items = "".join(
-        f'<section id="{k}"><h2 class="item">{e(p["name"])}</h2>' + (f'<p class="muted">{e(p["when"])}</p>' if p["when"] else "") + f'<p class="intro">{e(p["text"])}</p></section>'
-        for k, p in PROJECTS.items())
-    body = f"""
-<section><h1 class="title">Projects</h1></section>
-{items}
-"""
-    write("/projects/", layout("/projects/", "Projects", "Research projects of " + NAME + ": HARMONY, TikTalks I and II, and AI chatbots and contested history.", "projects", body))
-
-
-def page_press():
-    body = f"""
-<section>
-<h1 class="title">Press</h1>
-<p class="big">{NAME} speaks to journalists about TikTok's recommendation algorithm, health misinformation on social media, young people and online radicalization, and public discussion of neurotechnology. Interviews in English and German.</p>
-<p class="intro">Contact: <a href="mailto:{EMAIL}">{EMAIL}</a> · <a href="{BOOKING}">Book a call</a></p>
-</section>
-<section>
-<h2 class="label">Short bio</h2>
-<p class="intro">{e(SHORT_BIO)}</p>
-</section>
-<section>
-<h2 class="label">Long bio</h2>
-{"".join(f'<p class="intro">{e(p)}</p>' for p in LONG_BIO)}
-</section>
-<section>
-<h2 class="label">Photo</h2>
-<img src="{PHOTO}" alt="Portrait of {NAME}" width="240" height="336" style="width:240px;height:auto">
-<p class="small"><a href="{PHOTO}" download>Download the portrait (JPEG)</a></p>
-</section>
-"""
-    write("/press/", layout("/press/", "Press", "Press contact, bios and photo of " + NAME + ", researcher on TikTok, health misinformation and online radicalization.", "press", body))
 
 
 def page_participants():
@@ -686,7 +649,7 @@ def extras():
     (OUT / "favicon.svg").write_text(
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#1740D1"/>'
         '<text x="32" y="42" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28" font-weight="700" fill="#fff">AS</text></svg>')
-    urls = ["/", "/research/", "/publications/", "/talks/", "/projects/", "/press/", "/participants/"] + (["/legal/"] if LEGAL_READY else []) + [f"/research/{t['slug']}/" for t in THEMES]
+    urls = ["/", "/research/", "/publications/", "/participants/"] + (["/legal/"] if LEGAL_READY else []) + [f"/research/{t['slug']}/" for t in THEMES]
     sm = "".join(f"<url><loc>{SITE}{u}</loc><lastmod>{TODAY.isoformat()}</lastmod></url>" for u in urls)
     (OUT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sm}</urlset>\n')
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
@@ -703,9 +666,6 @@ def main():
     for t in THEMES:
         page_theme(t, pubs)
     page_publications(pubs)
-    page_talks()
-    page_projects()
-    page_press()
     page_participants()
     if LEGAL_READY:
         page_legal()
