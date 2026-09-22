@@ -1,0 +1,116 @@
+:root{
+  --ink:#111111;
+  --text:#333333;
+  --muted:#555555;
+  --rule:#DDDDDD;
+  --rule-soft:#EEEEEE;
+  --link:#1740D1;
+  --link-hover:#0B2690;
+  --bg:#FFFFFF;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Schibsted Grotesk',system-ui,sans-serif;font-size:17px;line-height:1.55}
+a{color:var(--link);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:hover{color:var(--link-hover)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--link);outline-offset:3px}
+img{max-width:100%;display:block}
+h1,h2,h3{margin:0}
+p{margin:0}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:16px;top:16px;background:#fff;padding:8px 12px;z-index:10}
+
+/* Layout */
+.page{display:flex;gap:96px;max-width:1296px;margin:0 auto;padding:72px 48px}
+.side{width:300px;flex-shrink:0;display:flex;flex-direction:column;gap:28px}
+.side .photo{width:300px;height:380px;object-fit:cover;object-position:50% 25%}
+.who{display:flex;flex-direction:column;gap:4px;color:var(--ink);text-decoration:none}
+.who .name{font-size:26px;font-weight:700;line-height:1.15}
+.who .pron{font-size:16px;color:var(--muted)}
+.role{font-size:16px;line-height:1.5;color:var(--text)}
+.nav{display:flex;flex-direction:column;gap:8px;font-size:17px}
+.nav a[aria-current="page"]{color:var(--ink);font-weight:700;text-decoration:none}
+.subnav{display:flex;flex-direction:column;gap:6px;padding-left:14px;border-left:2px solid var(--ink);font-size:15px}
+.subnav a[aria-current="page"]{color:var(--ink);font-weight:500;text-decoration:none}
+.contact{display:flex;flex-direction:column;gap:8px;font-size:16px;padding-top:20px;border-top:1px solid var(--rule)}
+main{flex-grow:1;min-width:0;max-width:800px;display:flex;flex-direction:column;gap:56px}
+
+/* Mobile header (hidden on wide screens) */
+.topbar{display:none}
+
+/* Type */
+.lead{font-size:44px;line-height:1.15;font-weight:500;letter-spacing:-0.015em}
+h1.title{font-size:44px;line-height:1.15;font-weight:500;letter-spacing:-0.015em}
+.intro{font-size:19px;line-height:1.6;color:var(--text)}
+.big{font-size:20px;line-height:1.6;color:#222}
+.crumb{font-size:15px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:16px}
+h2.label{font-size:15px;font-weight:700}
+h2.label a{color:var(--ink);text-decoration:none}
+h3.item{font-size:21px;font-weight:500;line-height:1.3}
+.muted{color:var(--muted)}
+.small{font-size:15px}
+ol.steps{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px;font-size:18px;color:#222}
+ul.plain{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px}
+
+/* Research grid on home */
+.themes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:40px;row-gap:28px}
+.theme{display:flex;flex-direction:column;gap:6px}
+.theme a{font-size:21px;font-weight:500;color:var(--ink)}
+.theme a:hover{color:var(--link)}
+.theme p{font-size:16px;color:#444}
+.inline-links{display:flex;flex-wrap:wrap;gap:12px 28px}
+
+/* Publications */
+.pub{display:flex;flex-direction:column;gap:10px;padding-bottom:28px;border-bottom:1px solid var(--rule-soft)}
+.pub .meta{font-size:14px;color:var(--muted)}
+.pub .cite{font-size:18px;line-height:1.55}
+.pub .actions{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;font-size:15px}
+.filters{display:flex;flex-direction:column;gap:14px;padding-bottom:28px;border-bottom:1px solid var(--rule)}
+.filters[hidden]{display:none}
+.filter-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.filter-row .lbl{font-size:15px;font-weight:700;width:64px}
+button{font-family:inherit;cursor:pointer}
+.chip{min-height:44px;padding:0 16px;font-size:15px;border:1px solid var(--ink);background:#fff;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff}
+.copy{min-height:44px;padding:0 14px;font-size:15px;background:#fff;color:var(--link);border:1px solid var(--link)}
+.copy:hover{color:var(--link-hover);border-color:var(--link-hover)}
+
+/* Entries (talks, projects) */
+.entry{display:flex;flex-direction:column;gap:4px}
+.entry .when{font-size:15px;color:var(--muted)}
+.foot{font-size:15px;color:var(--muted);padding-top:28px;border-top:1px solid var(--rule)}
+
+@media (max-width: 1000px){
+  .page{display:block;padding:0 16px 48px}
+  .side{display:none}
+  .topbar{display:block;border-bottom:1px solid var(--rule);margin:0 -16px 24px;padding:0 16px}
+  .topbar .row{display:flex;justify-content:space-between;align-items:center;min-height:60px}
+  .topbar .home{font-size:18px;font-weight:700;color:var(--ink);text-decoration:none}
+  .topbar details{position:static}
+  .topbar summary{list-style:none;min-height:44px;min-width:64px;padding:0 12px;display:flex;align-items:center;justify-content:center;border:1px solid var(--link);color:var(--link);cursor:pointer}
+  .topbar summary::-webkit-details-marker{display:none}
+  .topbar details[open] summary .open{display:none}
+  .topbar details:not([open]) summary .close{display:none}
+  .topbar{position:relative}
+  .topbar .menu{position:absolute;left:0;right:0;top:60px;z-index:5;background:#fff;display:flex;flex-direction:column;padding:8px 16px 16px;border-bottom:1px solid var(--rule);font-size:18px}
+  .topbar .menu a{padding:10px 0}
+  .topbar .menu a[aria-current="page"]{color:var(--ink);font-weight:700;text-decoration:none}
+  .mobile-intro{display:flex;gap:16px;align-items:flex-end}
+  .mobile-intro img{width:132px;height:168px;object-fit:cover;object-position:50% 25%;flex-shrink:0}
+  .mobile-intro .role{font-size:15px}
+  .mobile-contact{display:flex;flex-direction:column;font-size:17px}
+  .mobile-contact a{padding:10px 0;border-top:1px solid var(--rule-soft)}
+  .mobile-contact a:last-child{border-bottom:1px solid var(--rule-soft)}
+  main{gap:40px}
+  .lead{font-size:28px;line-height:1.2}
+  h1.title{font-size:32px}
+  .intro{font-size:17px}
+  .big{font-size:18px}
+  .themes{grid-template-columns:minmax(0,1fr)}
+  .theme a{font-size:19px}
+  .pub .cite{font-size:16px}
+}
+@media (min-width: 1001px){
+  .mobile-only{display:none}
+}
