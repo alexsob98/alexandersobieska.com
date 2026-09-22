@@ -79,7 +79,7 @@ THEMES = [
         "seo_title": "Neurotechnology and neuroethics in online public discussion",
         "summary": "How claims about \u201cthe brain\u201d, ADHD and neurotechnology are framed online, and what neuroethics can learn from it.",
         "body": [
-            "People now meet claims about \u201cthe brain\u201d, ADHD and neurotechnology mostly in online videos, not in journals. This theme asks how these topics are framed online, which ethical questions the public raises, and what neuroethics can learn from that.",
+            "People now meet claims about \u201cthe brain\u201d, ADHD and neurotechnology mostly in online videos, not in journals. This part of my work asks how these topics are framed online, which ethical questions the public raises, and what neuroethics can learn from that.",
             "Ethics is the study of how we ought to act and what we owe each other. Neuroethics applies this to brain science and neurotechnology: for example, what changes when a device can record or alter brain activity, or when people come to explain themselves through their brain.",
         ],
         "projects": [],
@@ -440,7 +440,7 @@ def page_research_index():
     body = f"""
 <section>
 <h1 class="title">Research and projects</h1>
-<p class="big">{e(LEAD)} My work falls into four themes.</p>
+<p class="big">{e(LEAD)} My work falls into four parts.</p>
 </section>
 <section>
 {items}
