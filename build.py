@@ -109,7 +109,7 @@ THEMES = [
         "seo_title": "Large language models in clinical communication and information retrieval",
         "summary": "How large language models change clinical communication and the way people look up information.",
         "body": [
-            "Large language models are changing how doctors and patients communicate and how people look up information. Earlier work with Georg Starke looked at informed consent: it argues that consent is more than an exchange of words, which limits what language models can do in consent conversations.",
+            "Large language models are changing how doctors and patients communicate and how people look up information. Earlier work looked at informed consent: it argues that consent is more than an exchange of words, which limits what language models can do in consent conversations.",
             "Another part of my work asks whether large language models give a less complete account of contested historical events, such as mass atrocities, when asked in some languages than in others.",
         ],
         "projects": ["llmhistory"],
@@ -275,9 +275,14 @@ def cite_html(p, link=True):
 
 
 # ---------------------------------------------------------------- layout
-def nav_links(active, active_theme=None, cls=""):
+NAV_DE = {"research": "Forschung und Projekte (Englisch)", "publications": "Publikationen und Vorträge (Englisch)", "cv": "Lebenslauf (PDF, Englisch)"}
+
+
+def nav_links(active, active_theme=None, cls="", lang="en"):
     out = []
     for key, href, label in NAV:
+        if lang == "de":
+            label = NAV_DE.get(key, label)
         cur = ' aria-current="page"' if key == active else ""
         out.append(f'<a href="{href}"{cur}>{e(label)}</a>')
         if key == "research" and active == "research" and cls != "menu":
@@ -289,29 +294,50 @@ def nav_links(active, active_theme=None, cls=""):
     return "\n".join(out)
 
 
-def contact_links():
-    return (f'<a href="mailto:{EMAIL}">Write me</a>\n'
-            f'<a href="{BOOKING}">Schedule a call with me</a>\n'
+def contact_links(lang="en"):
+    write_me, call = ("Schreiben Sie mir", "Gespräch vereinbaren") if lang == "de" else ("Write me", "Schedule a call with me")
+    return (f'<a href="mailto:{EMAIL}">{write_me}</a>\n'
+            f'<a href="{BOOKING}">{call}</a>\n'
             f'<a href="{SCHOLAR}">Google Scholar</a>\n'
             f'<a href="{ORCID}">ORCID</a>\n'
             f'<a href="{LINKEDIN}">LinkedIn</a>')
 
 
-def layout(path, title, description, active, body, active_theme=None, jsonld=None, extra_head="", home=False):
+# Home page and German page are language versions of each other (hreflang).
+LANG_PAIR = {"/": "/de/", "/de/": "/"}
+
+
+def layout(path, title, description, active, body, active_theme=None, jsonld=None, extra_head="", home=False, lang="en"):
     canonical = SITE + path
     full_title = title if home else f"{title} · {NAME}"
-    legal_link = '<a href="/legal/">Impressum and privacy</a>' if LEGAL_READY else ""
+    de = lang == "de"
+    legal = '<a href="/legal/">Impressum und Datenschutz</a>' if de else '<a href="/legal/">Impressum and privacy</a>'
+    other_lang = '<a href="/" hreflang="en" lang="en">English</a>' if de else '<a href="/de/" hreflang="de" lang="de">Deutsch</a>'
+    foot = " · ".join(x for x in [legal if LEGAL_READY else "", other_lang] if x)
     ld = f'<script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>' if jsonld else ""
-    photo_side = f'<img class="photo" src="{PHOTO}" alt="Portrait of {NAME}" width="300" height="380">' if home else ""
+    photo_side = f'<img class="photo" src="{PHOTO}" alt="Portrait von {NAME}" width="300" height="380">' if (home and de) else (f'<img class="photo" src="{PHOTO}" alt="Portrait of {NAME}" width="300" height="380">' if home else "")
+    hreflang = ""
+    if path in LANG_PAIR:
+        en_url = SITE + ("/" if path == "/" else LANG_PAIR[path])
+        de_url = SITE + ("/de/" if path == "/de/" else LANG_PAIR[path])
+        hreflang = (f'<link rel="alternate" hreflang="en" href="{en_url}">\n'
+                    f'<link rel="alternate" hreflang="de" href="{de_url}">\n'
+                    f'<link rel="alternate" hreflang="x-default" href="{en_url}">\n')
+    locale, alt_locale = ("de_DE", "en_US") if de else ("en_US", "de_DE")
+    role = (f'Doktorand<br><a href="{INSTITUTE_URL}">Professur für Ethik der KI und Neurowissenschaften</a><br>Technische Universität München' if de
+            else f'Doctoral researcher<br><a href="{INSTITUTE_URL}">Chair of Ethics of AI and Neuroscience</a><br>Technical University of Munich')
+    pron = "er/ihm" if de else "he/him"
     return f"""<!doctype html>
-<html lang="en">
+<html lang="{lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(full_title)}</title>
 <meta name="description" content="{e(description)}">
 <link rel="canonical" href="{canonical}">
-<meta property="og:type" content="{'profile' if home else 'website'}">
+{hreflang}<meta property="og:type" content="{'profile' if home else 'website'}">
+<meta property="og:locale" content="{locale}">
+<meta property="og:locale:alternate" content="{alt_locale}">
 <meta property="og:title" content="{e(full_title)}">
 <meta property="og:description" content="{e(description)}">
 <meta property="og:url" content="{canonical}">
@@ -323,33 +349,33 @@ def layout(path, title, description, active, body, active_theme=None, jsonld=Non
 {ld}{extra_head}
 </head>
 <body>
-<a class="skip" href="#content">Skip to content</a>
+<a class="skip" href="#content">{'Zum Inhalt' if de else 'Skip to content'}</a>
 <div class="page">
 <aside class="side">
 {photo_side}
-<a class="who" href="/"><span class="name">{NAME}</span><span class="pron">he/him</span></a>
-<div class="role">Doctoral researcher<br><a href="{INSTITUTE_URL}">Chair of Ethics of AI and Neuroscience</a><br>Technical University of Munich</div>
-<nav class="nav" aria-label="Main">
-{nav_links(active, active_theme)}
+<a class="who" href="{'/de/' if de else '/'}"><span class="name">{NAME}</span><span class="pron">{pron}</span></a>
+<div class="role">{role}</div>
+<nav class="nav" aria-label="{'Hauptnavigation' if de else 'Main'}">
+{nav_links(active, active_theme, lang=lang)}
 </nav>
 <div class="contact">
-{contact_links()}
+{contact_links(lang)}
 </div>
 </aside>
 <header class="topbar">
 <div class="row">
-<a class="home" href="/">{NAME}</a>
+<a class="home" href="{'/de/' if de else '/'}">{NAME}</a>
 <details>
-<summary><span class="open">Menu</span><span class="close">Close</span></summary>
-<nav class="menu" aria-label="Main menu">
-{nav_links(active, active_theme, "menu")}
+<summary><span class="open">{'Menü' if de else 'Menu'}</span><span class="close">{'Schließen' if de else 'Close'}</span></summary>
+<nav class="menu" aria-label="{'Hauptmenü' if de else 'Main menu'}">
+{nav_links(active, active_theme, "menu", lang=lang)}
 </nav>
 </details>
 </div>
 </header>
 <main id="content">
 {body}
-<p class="foot">{legal_link}</p>
+<p class="foot">{foot}</p>
 </main>
 </div>
 </body>
@@ -422,11 +448,61 @@ def page_home(pubs):
         ],
         "knowsAbout": ["TikTok", "recommender systems", "health misinformation", "neuroethics",
                        "online radicalization", "computational social science", "AI ethics",
-                       "large language models", "data donation"],
+                       "large language models", "data donation",
+                       "Gesundheitsinformationen", "Fehlinformationen", "Neuroethik", "Radikalisierung", "Datenspende"],
+        "knowsLanguage": ["en", "de"],
+        "worksFor": {"@type": "CollegeOrUniversity", "name": "Technical University of Munich", "alternateName": "Technische Universität München",
+                     "department": {"@type": "Organization", "name": "Institute of History and Ethics in Medicine", "alternateName": "Institut für Geschichte und Ethik der Medizin", "url": INSTITUTE_URL}},
+        "workLocation": {"@type": "Place", "address": {"@type": "PostalAddress", "addressLocality": "Munich", "addressCountry": "DE"}},
         "sameAs": [SCHOLAR, ORCID, LINKEDIN, TUM_PAGE],
     }
     write("/", layout("/", f"{NAME}: TikTok, health misinformation and neuroethics research",
                       DESCRIPTION, "home", body, jsonld=jsonld, home=True))
+
+
+DE_PARTS = [
+    ("tiktok-recommendations-health-misinformation", "Was TikTok zeigt und was Menschen ansehen",
+     "Junge Erwachsene spenden ihren TikTok-Verlauf: jedes Video, das der Feed ausgespielt hat, und wie lange es auf dem Bildschirm war. Verknüpft mit Befragungen zeigt das, wie viele Gesundheitsinhalte und Fehlinformationen Menschen erreichen und wie viel davon sie tatsächlich ansehen."),
+    ("neuroethics-online-public-discussion", "\u201eDas Gehirn\u201c in der Öffentlichkeit",
+     "Wie online über \u201edas Gehirn\u201c, ADHS und Neurotechnologie gesprochen wird, welche ethischen Fragen die Öffentlichkeit dabei stellt und was die Neuroethik daraus lernen kann."),
+    ("online-radicalization-misinformation", "Radikalisierung und Fehlinformation",
+     "Wie Bewegungen ihre Erzählungen aufbauen und wie sich Sprache verändert, wenn Menschen sich extremen Positionen annähern: von der Querdenken-Bewegung während der Corona-Pandemie bis zu radikalen und polarisierenden Inhalten in den TikTok-Feeds junger Erwachsener in Bayern (Projekt TikTalks)."),
+    ("large-language-models-clinical-communication-information", "Sprachmodelle und wie Menschen an Informationen kommen",
+     "Wie große Sprachmodelle die Kommunikation in der Medizin verändern und wie Menschen nach Informationen suchen, und ob KI-Chatbots über umstrittene historische Ereignisse in manchen Sprachen weniger vollständig berichten als in anderen."),
+]
+
+
+def page_de():
+    parts = "\n".join(
+        f'<div class="theme"><a href="/research/{slug}/" hreflang="en">{e(name)}</a><p>{e(text)}</p></div>'
+        for slug, name, text in DE_PARTS)
+    body = f"""
+<div class="mobile-only mobile-intro">
+<img src="{PHOTO}" alt="Portrait von {NAME}" width="132" height="168">
+<div class="role"><span class="muted">er/ihm</span><br>Doktorand, <a href="{INSTITUTE_URL}">Professur für Ethik der KI und Neurowissenschaften</a>, Technische Universität München</div>
+</div>
+<section>
+<h1 class="lead">Ich untersuche, was Social-Media-Feeds Menschen über Gesundheit und das Gehirn zeigen und was sie sich davon tatsächlich ansehen.</h1>
+<p class="intro">Ich bin Doktorand an der Professur für Ethik der KI und Neurowissenschaften am Institut für Geschichte und Ethik der Medizin der Technischen Universität München, betreut von <a href="{CHAIR_URL}">Marcello Ienca</a>. Ich arbeite im Projekt <a href="{HARMONY_URL}">HARMONY</a>, das Gesundheitsinformationen und Fehlinformationen auf TikTok bei jungen Erwachsenen untersucht, mit Daten, die sie aus ihren eigenen Konten spenden. Dabei verbinde ich computergestützte Textanalyse, Befragungen und Ethik. Von Oktober 2025 bis Januar 2026 war ich Fulbright-Gastwissenschaftler am <a href="{SML_URL}">Stanford Social Media Lab</a>.</p>
+</section>
+<div class="mobile-only mobile-contact">
+{contact_links("de")}
+</div>
+<section>
+<h2 class="label">Forschung</h2>
+<div class="themes">
+{parts}
+</div>
+<p class="small muted">Ausführliche Beschreibungen, Projekte, Publikationen und Vorträge finden Sie auf den englischen Seiten.</p>
+</section>
+<section>
+<h2 class="label">Kontakt</h2>
+<p class="intro">Anfragen für Vorträge, Interviews und Zusammenarbeit gern auf Deutsch oder Englisch: <a href="mailto:{EMAIL}">Schreiben Sie mir</a> oder <a href="{BOOKING}">vereinbaren Sie ein Gespräch</a>.</p>
+</section>
+"""
+    write("/de/", layout("/de/", f"{NAME}: Forschung zu TikTok, Gesundheitsinformationen und Neuroethik",
+                         "Alexander Sobieska ist Doktorand an der Technischen Universität München und erforscht, welche Gesundheitsinhalte und Fehlinformationen TikTok jungen Erwachsenen zeigt, was sie davon tatsächlich ansehen, und wie online über das Gehirn und Neurotechnologie gesprochen wird.",
+                         "home", body, home=True, lang="de"))
 
 
 def page_research_index():
@@ -641,8 +717,12 @@ def extras():
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#1740D1"/>'
         '<text x="32" y="42" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28" font-weight="700" fill="#fff">AS</text></svg>')
     urls = ["/", "/research/", "/publications/"] + (["/legal/"] if LEGAL_READY else []) + [f"/research/{t['slug']}/" for t in THEMES]
-    sm = "".join(f"<url><loc>{SITE}{u}</loc><lastmod>{TODAY.isoformat()}</lastmod></url>" for u in urls)
-    (OUT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sm}</urlset>\n')
+    urls.insert(1, "/de/")
+    alt = (f'<xhtml:link rel="alternate" hreflang="en" href="{SITE}/"/>'
+           f'<xhtml:link rel="alternate" hreflang="de" href="{SITE}/de/"/>'
+           f'<xhtml:link rel="alternate" hreflang="x-default" href="{SITE}/"/>')
+    sm = "".join(f"<url><loc>{SITE}{u}</loc><lastmod>{TODAY.isoformat()}</lastmod>{alt if u in ('/', '/de/') else ''}</url>" for u in urls)
+    (OUT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">{sm}</urlset>\n')
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
 
 
@@ -653,6 +733,7 @@ def main():
                 shutil.rmtree(sub)
     pubs = parse_bib(SRC / "publications.bib")
     page_home(pubs)
+    page_de()
     page_research_index()
     for t in THEMES:
         page_theme(t, pubs)
