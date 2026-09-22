@@ -275,7 +275,7 @@ def cite_html(p, link=True):
 
 
 # ---------------------------------------------------------------- layout
-NAV_DE = {"research": "Forschung und Projekte (Englisch)", "publications": "Publikationen und Vorträge (Englisch)", "cv": "Lebenslauf (PDF, Englisch)"}
+NAV_DE = {"research": "Forschung und Projekte (englisch)", "publications": "Publikationen und Vorträge (englisch)", "cv": "Lebenslauf (PDF, englisch)"}
 
 
 def nav_links(active, active_theme=None, cls="", lang="en"):
@@ -295,7 +295,7 @@ def nav_links(active, active_theme=None, cls="", lang="en"):
 
 
 def contact_links(lang="en"):
-    write_me, call = ("Schreiben Sie mir", "Gespräch vereinbaren") if lang == "de" else ("Write me", "Schedule a call with me")
+    write_me, call = ("Schreiben Sie mir", "Vereinbaren Sie ein Gespräch") if lang == "de" else ("Write me", "Schedule a call with me")
     return (f'<a href="mailto:{EMAIL}">{write_me}</a>\n'
             f'<a href="{BOOKING}">{call}</a>\n'
             f'<a href="{SCHOLAR}">Google Scholar</a>\n'
@@ -315,7 +315,7 @@ def layout(path, title, description, active, body, active_theme=None, jsonld=Non
     other_lang = '<a href="/" hreflang="en" lang="en">English</a>' if de else '<a href="/de/" hreflang="de" lang="de">Deutsch</a>'
     foot = " · ".join(x for x in [legal if LEGAL_READY else "", other_lang] if x)
     ld = f'<script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>' if jsonld else ""
-    photo_side = f'<img class="photo" src="{PHOTO}" alt="Portrait von {NAME}" width="300" height="380">' if (home and de) else (f'<img class="photo" src="{PHOTO}" alt="Portrait of {NAME}" width="300" height="380">' if home else "")
+    photo_side = f'<img class="photo" src="{PHOTO}" alt="Porträt von {NAME}" width="300" height="380">' if (home and de) else (f'<img class="photo" src="{PHOTO}" alt="Portrait of {NAME}" width="300" height="380">' if home else "")
     hreflang = ""
     if path in LANG_PAIR:
         en_url = SITE + ("/" if path == "/" else LANG_PAIR[path])
@@ -349,7 +349,7 @@ def layout(path, title, description, active, body, active_theme=None, jsonld=Non
 {ld}{extra_head}
 </head>
 <body>
-<a class="skip" href="#content">{'Zum Inhalt' if de else 'Skip to content'}</a>
+<a class="skip" href="#content">{'Zum Inhalt springen' if de else 'Skip to content'}</a>
 <div class="page">
 <aside class="side">
 {photo_side}
@@ -462,13 +462,13 @@ def page_home(pubs):
 
 DE_PARTS = [
     ("tiktok-recommendations-health-misinformation", "Was TikTok zeigt und was Menschen ansehen",
-     "Junge Erwachsene spenden ihren TikTok-Verlauf: jedes Video, das der Feed ausgespielt hat, und wie lange es auf dem Bildschirm war. Verknüpft mit Befragungen zeigt das, wie viele Gesundheitsinhalte und Fehlinformationen Menschen erreichen und wie viel davon sie tatsächlich ansehen."),
+     "Junge Erwachsene spenden ihren TikTok-Verlauf. Er verzeichnet, welche Videos das Empfehlungssystem ausgespielt hat und wie lange sie auf dem Bildschirm waren. Zusammen mit Befragungen zeigt das, wie viele Gesundheitsinformationen und Fehlinformationen bei den Teilnehmenden ankommen und wie viel davon sie sich ansehen."),
     ("neuroethics-online-public-discussion", "\u201eDas Gehirn\u201c in der Öffentlichkeit",
-     "Wie online über \u201edas Gehirn\u201c, ADHS und Neurotechnologie gesprochen wird, welche ethischen Fragen die Öffentlichkeit dabei stellt und was die Neuroethik daraus lernen kann."),
-    ("online-radicalization-misinformation", "Radikalisierung und Fehlinformation",
-     "Wie Bewegungen ihre Erzählungen aufbauen und wie sich Sprache verändert, wenn Menschen sich extremen Positionen annähern: von der Querdenken-Bewegung während der Corona-Pandemie bis zu radikalen und polarisierenden Inhalten in den TikTok-Feeds junger Erwachsener in Bayern (Projekt TikTalks)."),
-    ("large-language-models-clinical-communication-information", "Sprachmodelle und wie Menschen an Informationen kommen",
-     "Wie große Sprachmodelle die Kommunikation in der Medizin verändern und wie Menschen nach Informationen suchen, und ob KI-Chatbots über umstrittene historische Ereignisse in manchen Sprachen weniger vollständig berichten als in anderen."),
+     "Wie im Internet über \u201edas Gehirn\u201c, ADHS und Neurotechnologie gesprochen wird, welche ethischen Fragen die Öffentlichkeit dabei stellt und was die Neuroethik daraus lernen kann."),
+    ("online-radicalization-misinformation", "Radikalisierung und Fehlinformationen",
+     "Wie Bewegungen ihre Erzählungen aufbauen und wie sich Sprache verändert, wenn sich Menschen extremen Positionen annähern: von der Querdenken-Bewegung während der Corona-Pandemie bis zu radikalen und polarisierenden Inhalten in den TikTok-Feeds junger Erwachsener in Bayern (Projekt TikTalks)."),
+    ("large-language-models-clinical-communication-information", "Sprachmodelle und die Suche nach Informationen",
+     "Wie große Sprachmodelle die Kommunikation in der Medizin und die Suche nach Informationen verändern – und ob KI-Chatbots über umstrittene historische Ereignisse in manchen Sprachen weniger vollständig berichten als in anderen."),
 ]
 
 
@@ -478,12 +478,12 @@ def page_de():
         for slug, name, text in DE_PARTS)
     body = f"""
 <div class="mobile-only mobile-intro">
-<img src="{PHOTO}" alt="Portrait von {NAME}" width="132" height="168">
+<img src="{PHOTO}" alt="Porträt von {NAME}" width="132" height="168">
 <div class="role"><span class="muted">er/ihm</span><br>Doktorand, <a href="{INSTITUTE_URL}">Professur für Ethik der KI und Neurowissenschaften</a>, Technische Universität München</div>
 </div>
 <section>
-<h1 class="lead">Ich untersuche, was Social-Media-Feeds Menschen über Gesundheit und das Gehirn zeigen und was sie sich davon tatsächlich ansehen.</h1>
-<p class="intro">Ich bin Doktorand an der Professur für Ethik der KI und Neurowissenschaften am Institut für Geschichte und Ethik der Medizin der Technischen Universität München, betreut von <a href="{CHAIR_URL}">Marcello Ienca</a>. Ich arbeite im Projekt <a href="{HARMONY_URL}">HARMONY</a>, das Gesundheitsinformationen und Fehlinformationen auf TikTok bei jungen Erwachsenen untersucht, mit Daten, die sie aus ihren eigenen Konten spenden. Dabei verbinde ich computergestützte Textanalyse, Befragungen und Ethik. Von Oktober 2025 bis Januar 2026 war ich Fulbright-Gastwissenschaftler am <a href="{SML_URL}">Stanford Social Media Lab</a>.</p>
+<h1 class="lead">Ich untersuche, was Menschen in Social-Media-Feeds über Gesundheit und das Gehirn zu sehen bekommen und was sie davon tatsächlich ansehen.</h1>
+<p class="intro">Ich bin Doktorand an der Professur für Ethik der KI und Neurowissenschaften (Institut für Geschichte und Ethik der Medizin) der Technischen Universität München; betreut werde ich von <a href="{CHAIR_URL}">Marcello Ienca</a>. Ich arbeite im Projekt <a href="{HARMONY_URL}">HARMONY</a>, das untersucht, welche Gesundheitsinformationen und Fehlinformationen junge Erwachsene auf TikTok erreichen. Grundlage sind Datenspenden der Teilnehmenden aus ihren eigenen TikTok-Konten. Dabei verbinde ich computergestützte Textanalyse, Befragungen und Ethik. Von Oktober 2025 bis Januar 2026 war ich Fulbright-Gastwissenschaftler am <a href="{SML_URL}">Stanford Social Media Lab</a>.</p>
 </section>
 <div class="mobile-only mobile-contact">
 {contact_links("de")}
@@ -493,15 +493,15 @@ def page_de():
 <div class="themes">
 {parts}
 </div>
-<p class="small muted">Ausführliche Beschreibungen, Projekte, Publikationen und Vorträge finden Sie auf den englischen Seiten.</p>
+<p class="small muted">Ausführliche Beschreibungen, Projekte, Publikationen und Vorträge finden Sie auf den englischen Seiten; die Überschriften oben führen dorthin.</p>
 </section>
 <section>
 <h2 class="label">Kontakt</h2>
-<p class="intro">Anfragen für Vorträge, Interviews und Zusammenarbeit gern auf Deutsch oder Englisch: <a href="mailto:{EMAIL}">Schreiben Sie mir</a> oder <a href="{BOOKING}">vereinbaren Sie ein Gespräch</a>.</p>
+<p class="intro">Anfragen zu Vorträgen, Interviews und Zusammenarbeit sind auf Deutsch oder Englisch willkommen: <a href="mailto:{EMAIL}">Schreiben Sie mir</a> oder <a href="{BOOKING}">vereinbaren Sie ein Gespräch</a>.</p>
 </section>
 """
     write("/de/", layout("/de/", f"{NAME}: Forschung zu TikTok, Gesundheitsinformationen und Neuroethik",
-                         "Alexander Sobieska ist Doktorand an der Technischen Universität München und erforscht, welche Gesundheitsinhalte und Fehlinformationen TikTok jungen Erwachsenen zeigt, was sie davon tatsächlich ansehen, und wie online über das Gehirn und Neurotechnologie gesprochen wird.",
+                         "Alexander Sobieska ist Doktorand an der Technischen Universität München und untersucht, welche Gesundheitsinformationen und Fehlinformationen TikTok jungen Erwachsenen zeigt, was sie davon tatsächlich ansehen und wie im Internet über das Gehirn und Neurotechnologie gesprochen wird.",
                          "home", body, home=True, lang="de"))
 
 
@@ -674,8 +674,9 @@ def page_legal():
     address = "<br>".join(e(x) for x in IMPRESSUM_ADDRESS)
     body = f"""
 <section>
-<h1 class="title">Impressum and privacy</h1>
-<p class="intro">The legal notice and privacy notice are given in German, as German law requires, followed by an English translation of the privacy notice. If the German and English versions differ, the German version applies.</p>
+<h1 class="title">Impressum und Datenschutz</h1>
+<p class="intro" lang="de">Impressum und Datenschutzerklärung stehen, wie gesetzlich vorgesehen, auf Deutsch; darunter folgt eine englische Übersetzung der Datenschutzerklärung. Bei Abweichungen gilt die deutsche Fassung.</p>
+<p class="intro">The legal notice and the privacy notice are in German, as German law requires, followed by an English translation of the privacy notice. If the versions differ, the German one applies.</p>
 </section>
 <section lang="de">
 <h2 class="label">Impressum</h2>
